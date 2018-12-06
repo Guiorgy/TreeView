@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.TreeView", "Xamarin.TreeView\Xamarin.TreeView.csproj", "{9C9A6284-B382-42B8-8255-FF1FD1FE0FC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoApp", "DemoApp\DemoApp.csproj", "{CDFD6D92-18CC-467B-9656-380B4C5BDB30}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C9A6284-B382-42B8-8255-FF1FD1FE0FC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C9A6284-B382-42B8-8255-FF1FD1FE0FC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C9A6284-B382-42B8-8255-FF1FD1FE0FC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C9A6284-B382-42B8-8255-FF1FD1FE0FC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDFD6D92-18CC-467B-9656-380B4C5BDB30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDFD6D92-18CC-467B-9656-380B4C5BDB30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDFD6D92-18CC-467B-9656-380B4C5BDB30}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{CDFD6D92-18CC-467B-9656-380B4C5BDB30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDFD6D92-18CC-467B-9656-380B4C5BDB30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDFD6D92-18CC-467B-9656-380B4C5BDB30}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A4EED482-3EA1-4DA8-BFA2-E8632455D19C}
+	EndGlobalSection
+EndGlobal

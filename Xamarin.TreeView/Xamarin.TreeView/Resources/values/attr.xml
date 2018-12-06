@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+
+  <declare-styleable name="TieredListItem">
+
+    <attr name="traceVisibility" format="reference|enum">
+      <enum name="visible" value="0"/>
+      <enum name="invisible" value="2"/>
+    </attr>
+    <attr name="traceColor" format="reference|color"/>
+    <attr name="traceMargin" format="reference|dimension"/>
+
+  </declare-styleable>
+
+</resources>
