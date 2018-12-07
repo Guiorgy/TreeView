@@ -1,5 +1,4 @@
-﻿using System;
-using Android.Views;
+﻿using Android.Views;
 using System.Collections.Generic;
 using Android.Widget;
 
@@ -12,16 +11,16 @@ namespace Xamarin.TreeView
         public TreeViewAdapter(IList<ITreeViewNode> items) : base(items)
         {}
 
-        public override TreeView.ViewHolder OnCreateViewHolder(ViewGroup parent, TreeView tree, View itemView)
+        public override TreeView.TreeViewHolder OnCreateViewHolder(ViewGroup parent, TreeView tree, View itemView)
         {
             TreeViewAdapter adapter = new TreeViewAdapter();
             tree.SetAdapter(adapter);
-            return new TreeViewHolder(tree, itemView, OnClick, OnLongClick);
+            return new TreeViewHolder(tree, itemView);
         }
 
-        public override TreeView.ViewHolder OnCreateViewHolder(ViewGroup parent, View itemView)
+        public override TreeView.NodeViewHolder OnCreateViewHolder(ViewGroup parent, View itemView)
         {
-            return new NodeViewHolder(itemView, OnClick, OnLongClick);
+            return new NodeViewHolder(itemView);
         }
 
         public override void OnBindViewHolder(TreeView.TreeViewHolder viewHolder, int position)
@@ -46,7 +45,7 @@ namespace Xamarin.TreeView
         {
             public TextView TextView { get; }
 
-            public NodeViewHolder(View itemView, Action<TreeView.ClickEventArgs> clickListener, Action<TreeView.ClickEventArgs> longClickListener) : base(itemView, clickListener, longClickListener)
+            public NodeViewHolder(View itemView) : base(itemView)
             {
                 this.TextView = itemView.FindViewById<TextView>(Resource.Id.text);
             }
@@ -56,7 +55,7 @@ namespace Xamarin.TreeView
         {
             public TextView TextView { get; }
 
-            public TreeViewHolder(TreeView tree, View itemView, Action<TreeView.ClickEventArgs> clickListener, Action<TreeView.ClickEventArgs> longClickListener) : base(tree, itemView, clickListener, longClickListener)
+            public TreeViewHolder(TreeView tree, View itemView) : base(tree, itemView)
             {
                 this.TextView = itemView.FindViewById<TextView>(Resource.Id.text);
             }

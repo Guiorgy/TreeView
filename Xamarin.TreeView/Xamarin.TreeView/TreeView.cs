@@ -165,45 +165,47 @@ namespace Xamarin.TreeView
 
             public sealed override int ItemCount => this.nodes.Count;
             public sealed override long GetItemId(int position) => this.nodes[position].Id;
-            public sealed override int GetItemViewType(int position) => this.nodes[position].Children.Count > 0 ? (int)ViewType.TreeNode : (int)ViewType.Node;
+            public sealed override int GetItemViewType(int position) => this.nodes[position].Children.Count > 0 ? (int)NodeType.TreeNode : (int)NodeType.SingleNode;
 
             public void OnClick(ClickEventArgs args) => Click?.Invoke(this, args);
             public void OnLongClick(ClickEventArgs args) => LongClick?.Invoke(this, args);
 
-            public enum ViewType{
+            public enum NodeType{
                 None = 0,
-                Node = 1,
+                SingleNode = 1,
                 TreeNode = 2,
             }
 
-            public sealed override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
+            public sealed override ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
             {
                 View itemView = LayoutInflater.From(parent.Context).Inflate(Layout, parent, false);
 
                 switch (viewType)
                 {
-                    case (int)ViewType.Node:
-                        return OnCreateViewHolder(parent, itemView);
-                    case (int)ViewType.TreeNode:
+                    case (int)NodeType.SingleNode:
+                        NodeViewHolder vh = OnCreateViewHolder(parent, itemView);
+                        vh.SetClickListeners(OnClick, OnLongClick);
+                        return vh;
+                    case (int)NodeType.TreeNode:
                         return OnCreateViewHolder(parent, new TreeView(parent.Context){
                                 LayoutParameters = new LayoutParams(MatchParent, WrapContent)
                             }, itemView);
                     default:
-                        goto case (int)ViewType.Node;
+                        goto case (int)NodeType.SingleNode;
                 }
             }
 
-            public abstract ViewHolder OnCreateViewHolder(ViewGroup parent, TreeView tree, View itemView);
-            public abstract ViewHolder OnCreateViewHolder(ViewGroup parent, View itemView);
+            public abstract TreeViewHolder OnCreateViewHolder(ViewGroup parent, TreeView tree, View itemView);
+            public abstract NodeViewHolder OnCreateViewHolder(ViewGroup parent, View itemView);
 
-            public sealed override void OnBindViewHolder(RecyclerView.ViewHolder viewHolder, int position)
+            public sealed override void OnBindViewHolder(ViewHolder viewHolder, int position)
             {
                 if(position != 0)
                 {
                     (viewHolder.ItemView.LayoutParameters as MarginLayoutParams).TopMargin = NodeMargin;
                 }
 
-                if(viewHolder is TreeViewHolder)
+                if (viewHolder is TreeViewHolder)
                 {
                     TreeViewHolder vh = viewHolder as TreeViewHolder;
                     Adapter adapter = vh.Tree.GetAdapter();
@@ -224,7 +226,7 @@ namespace Xamarin.TreeView
                 }
             }
 
-            public sealed override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position, IList<Java.Lang.Object> payloads)
+            public sealed override void OnBindViewHolder(ViewHolder holder, int position, IList<Java.Lang.Object> payloads)
             {
                 base.OnBindViewHolder(holder, position, payloads);
             }
@@ -233,24 +235,16 @@ namespace Xamarin.TreeView
             public abstract void OnBindViewHolder(NodeViewHolder viewHolder, int position);
         }
 
-        public new abstract class ViewHolder : RecyclerView.ViewHolder
-        {
-            public ViewHolder(View itemView, Action<ClickEventArgs> clickListener, Action<ClickEventArgs> longClickListener) : base(itemView)
-            {
-                itemView.Click += (sender, e) => clickListener(new ClickEventArgs { View = itemView, Position = AdapterPosition });
-                itemView.LongClick += (sender, e) => longClickListener(new ClickEventArgs { View = itemView, Position = AdapterPosition });
-            }
-
-            protected ViewHolder(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer){}
-        }
-
         public abstract class TreeViewHolder : ViewHolder
         {
             public TreeView Tree { get; }
 
-            public TreeViewHolder(TreeView tree, View itemView, Action<ClickEventArgs> clickListener, Action<ClickEventArgs> longClickListener) : base(WrapView(tree, itemView), clickListener, longClickListener)
+            public TreeViewHolder(TreeView tree, View itemView) : base(WrapView(tree, itemView))
             {
                 this.Tree = tree;
+
+                itemView.Click += (sender, e) => tree.GetAdapter().OnClick(new ClickEventArgs { View = itemView, NodeType = Adapter.NodeType.TreeNode, Position = AdapterPosition });
+                itemView.LongClick += (sender, e) => tree.GetAdapter().OnLongClick(new ClickEventArgs { View = itemView, NodeType = Adapter.NodeType.TreeNode, Position = AdapterPosition });
             }
 
             private static View WrapView(TreeView tree, View itemView)
@@ -273,15 +267,22 @@ namespace Xamarin.TreeView
 
         public abstract class NodeViewHolder : ViewHolder
         {
-            public NodeViewHolder(View itemView, Action<ClickEventArgs> clickListener, Action<ClickEventArgs> longClickListener) : base(itemView, clickListener, longClickListener)
+            public NodeViewHolder(View itemView) : base(itemView)
             {
                 (itemView.LayoutParameters as MarginLayoutParams).SetMargins(0, 0, 0, 0);
+            }
+
+            internal void SetClickListeners(Action<ClickEventArgs> OnClick, Action<ClickEventArgs> OnLongClick)
+            {
+                this.ItemView.Click += (sender, e) => OnClick(new ClickEventArgs { View = this.ItemView, NodeType = Adapter.NodeType.SingleNode, Position = AdapterPosition });
+                this.ItemView.LongClick += (sender, e) => OnLongClick(new ClickEventArgs { View = this.ItemView, NodeType = Adapter.NodeType.SingleNode, Position = AdapterPosition });
             }
         }
 
         public class ClickEventArgs : EventArgs
         {
             public View View { get; set; }
+            public Adapter.NodeType NodeType { get; set; }
             public int Position { get; set; }
         }
     }
