@@ -14,7 +14,7 @@ namespace Xamarin.TreeView
         {
             this.Layout = layout;
         }
-        public TreeViewAdapter(int layout, IList<ITreeViewItem> items) : base(items)
+        public TreeViewAdapter(int layout, IList<ITreeViewNode> items) : base(items)
         {
             this.Layout = layout;
         }
@@ -41,7 +41,7 @@ namespace Xamarin.TreeView
         
         public override void OnBindViewHolder(RecyclerView.ViewHolder viewHolder, int position)
         {
-            ITreeViewItem item = Items[position];
+            ITreeViewNode item = Nodes[position];
             var holder = viewHolder as ViewHolder;
         }
 

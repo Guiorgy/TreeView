@@ -54,73 +54,73 @@ namespace Xamarin.TreeView
 
         public new abstract class Adapter : RecyclerView.Adapter
         {
-            public event EventHandler<ClickEventArgs> ItemClick;
-            public event EventHandler<ClickEventArgs> ItemLongClick;
-            private IList<ITreeViewItem> items;
-            protected IList<ITreeViewItem> Items
+            public event EventHandler<ClickEventArgs> Click;
+            public event EventHandler<ClickEventArgs> LongClick;
+            private IList<ITreeViewNode> nodes;
+            protected IList<ITreeViewNode> Nodes
             {
                 get
                 {
-                    return items;
+                    return nodes;
                 }
                 set
                 {
-                    items.Clear();
-                    foreach (ITreeViewItem item in value) items.Add(item);
+                    nodes.Clear();
+                    foreach (ITreeViewNode node in value) nodes.Add(node);
                     NotifyDataSetChanged();
                 }
             }
 
-            protected Adapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) => this.items = new List<ITreeViewItem>();
-            public Adapter() => this.items = new List<ITreeViewItem>();
-            public Adapter(IList<ITreeViewItem> items) => this.items = items;
+            protected Adapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) => this.nodes = new List<ITreeViewNode>();
+            public Adapter() => this.nodes = new List<ITreeViewNode>();
+            public Adapter(IList<ITreeViewNode> nodes) => this.nodes = nodes;
 
-            public void AddItem(ITreeViewItem item)
+            public void AddNode(ITreeViewNode node)
             {
-                this.items.Add(item);
-                NotifyItemChanged(this.items.Count - 1);
+                this.nodes.Add(node);
+                NotifyItemChanged(this.nodes.Count - 1);
             }
-            public void AddItems(params ITreeViewItem[] items)
+            public void AddNodes(params ITreeViewNode[] nodes)
             {
-                int from = this.items.Count;
-                foreach (ITreeViewItem item in items) this.items.Add(item);
-                NotifyItemRangeChanged(from, items.Length);
+                int from = this.nodes.Count;
+                foreach (ITreeViewNode node in nodes) this.nodes.Add(node);
+                NotifyItemRangeChanged(from, nodes.Length);
             }
-            public void AddItems(IList<ITreeViewItem> items)
+            public void AddNodes(IList<ITreeViewNode> nodes)
             {
-                int from = this.items.Count;
-                foreach (ITreeViewItem item in items) this.items.Add(item);
-                NotifyItemRangeChanged(from, items.Count);
+                int from = this.nodes.Count;
+                foreach (ITreeViewNode node in nodes) this.nodes.Add(node);
+                NotifyItemRangeChanged(from, nodes.Count);
             }
-            public void RemoveItem(ITreeViewItem item)
+            public void RemoveNode(ITreeViewNode node)
             {
-                int position = this.items.IndexOf(item);
-                this.items.Remove(item);
+                int position = this.nodes.IndexOf(node);
+                this.nodes.Remove(node);
                 NotifyItemRemoved(position);
             }
-            public void RemoveItems(params ITreeViewItem[] items)
+            public void RemoveNodes(params ITreeViewNode[] nodes)
             {
-                foreach(ITreeViewItem item in items)
+                foreach(ITreeViewNode node in nodes)
                 {
-                    this.items.Remove(item);
+                    this.nodes.Remove(node);
                 }
                 NotifyDataSetChanged();
             }
-            public void RemoveItems(IList<ITreeViewItem> items)
+            public void RemoveNodes(IList<ITreeViewNode> nodes)
             {
-                foreach (ITreeViewItem item in items)
+                foreach (ITreeViewNode node in nodes)
                 {
-                    this.items.Remove(item);
+                    this.nodes.Remove(node);
                 }
                 NotifyDataSetChanged();
             }
 
-            public sealed override int ItemCount => this.items.Count;
-            public sealed override long GetItemId(int position) => this.items[position].Id;
-            public sealed override int GetItemViewType(int position) => this.items[position].Children.Count > 1 ? (int)ViewType.TreeNode : this.items[position].Children.Count;
+            public sealed override int ItemCount => this.nodes.Count;
+            public sealed override long GetItemId(int position) => this.nodes[position].Id;
+            public sealed override int GetItemViewType(int position) => this.nodes[position].Children.Count > 1 ? (int)ViewType.TreeNode : this.nodes[position].Children.Count;
 
-            public void OnClick(ClickEventArgs args) => ItemClick?.Invoke(this, args);
-            public void OnLongClick(ClickEventArgs args) => ItemLongClick?.Invoke(this, args);
+            public void OnClick(ClickEventArgs args) => Click?.Invoke(this, args);
+            public void OnLongClick(ClickEventArgs args) => LongClick?.Invoke(this, args);
 
             public enum ViewType{
                 None = 0,

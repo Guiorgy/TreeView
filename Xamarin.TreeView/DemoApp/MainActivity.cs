@@ -16,17 +16,17 @@ namespace DemoApp
             TreeView treeView = FindViewById<TreeView>(Resource.Id.list);
             TreeViewAdapter adapter = new TreeViewAdapter(Resource.Layout.treeviewitem);
             treeView.SetAdapter(adapter);
-            TreeViewItem[] items =
+            TreeViewNode[] items =
             {
-                new TreeViewItem(),
-                new TreeViewItem(),
-                new TreeViewItem(),
+                new TreeViewNode(),
+                new TreeViewNode(),
+                new TreeViewNode(),
             };
-            items[1].AddChild(new TreeViewItem());
-            TreeViewItem item = new TreeViewItem();
-            item.AddChild(new TreeViewItem());
+            items[1].AddChild(new TreeViewNode());
+            TreeViewNode item = new TreeViewNode();
+            item.AddChild(new TreeViewNode());
             items[2].AddChild(item);
-            adapter.AddItems(items);
+            adapter.AddNodes(items);
             adapter.NotifyDataSetChanged();
         }
     }
