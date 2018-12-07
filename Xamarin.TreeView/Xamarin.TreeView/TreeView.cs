@@ -14,6 +14,12 @@ namespace Xamarin.TreeView
     public class TreeView : RecyclerView
     {
         private IList<ITreeViewNode> Nodes { get; set; } = null;
+        private void SetClickListeners(EventHandler<ClickEventArgs> Click, EventHandler<ClickEventArgs> LongClick)
+        {
+            if (this.GetAdapter() == null) return;
+            this.GetAdapter().Click += Click;
+            this.GetAdapter().LongClick += LongClick;
+        }
 
         private protected int NodeMargin { get; set; }
         private protected int HeadMargin { get; set; }
@@ -71,12 +77,12 @@ namespace Xamarin.TreeView
 
         public void SwapAdapter(Adapter adapter, bool removeAndRecycleExistingViews)
         {
-            base.SwapAdapter(adapter, removeAndRecycleExistingViews);
             if (this.Nodes != null)
             {
                 adapter.AddNodes(this.Nodes);
                 this.Nodes = null;
             }
+            base.SwapAdapter(adapter, removeAndRecycleExistingViews);
             adapter.NodeMargin = this.NodeMargin;
             adapter.HeadMargin = this.HeadMargin;
         }
@@ -187,9 +193,11 @@ namespace Xamarin.TreeView
                         vh.SetClickListeners(OnClick, OnLongClick);
                         return vh;
                     case (int)NodeType.TreeNode:
-                        return OnCreateViewHolder(parent, new TreeView(parent.Context){
+                        TreeViewHolder tvh = OnCreateViewHolder(parent, new TreeView(parent.Context){
                                 LayoutParameters = new LayoutParams(MatchParent, WrapContent)
                             }, itemView);
+                        tvh.SetClickListeners(OnClick, OnLongClick, Click, LongClick);
+                        return tvh;
                     default:
                         goto case (int)NodeType.SingleNode;
                 }
@@ -238,13 +246,12 @@ namespace Xamarin.TreeView
         public abstract class TreeViewHolder : ViewHolder
         {
             public TreeView Tree { get; }
+            public View Head { get; }
 
             public TreeViewHolder(TreeView tree, View itemView) : base(WrapView(tree, itemView))
             {
                 this.Tree = tree;
-
-                itemView.Click += (sender, e) => tree.GetAdapter().OnClick(new ClickEventArgs { View = itemView, NodeType = Adapter.NodeType.TreeNode, Position = AdapterPosition });
-                itemView.LongClick += (sender, e) => tree.GetAdapter().OnLongClick(new ClickEventArgs { View = itemView, NodeType = Adapter.NodeType.TreeNode, Position = AdapterPosition });
+                this.Head = itemView;
             }
 
             private static View WrapView(TreeView tree, View itemView)
@@ -261,7 +268,16 @@ namespace Xamarin.TreeView
                 LinearLayout wrapper = RootView.FindViewById<LinearLayout>(Resource.Id.treeview_listitem_wrapper_container);
                 parameters = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WrapContent, 1);
                 wrapper.AddView(tree, parameters);
+
                 return RootView;
+            }
+
+            internal void SetClickListeners(Action<ClickEventArgs> OnClick, Action<ClickEventArgs> OnLongClick, EventHandler<ClickEventArgs> Click, EventHandler<ClickEventArgs> LongClick)
+            {
+                this.Head.Click += (sender, e) => OnClick(new ClickEventArgs { View = this.Head, NodeType = Adapter.NodeType.TreeNode, Position = AdapterPosition });
+                this.Head.LongClick += (sender, e) => OnLongClick(new ClickEventArgs { View = this.Head, NodeType = Adapter.NodeType.TreeNode, Position = AdapterPosition });
+
+                this.Tree.SetClickListeners(Click, LongClick);
             }
         }
 
