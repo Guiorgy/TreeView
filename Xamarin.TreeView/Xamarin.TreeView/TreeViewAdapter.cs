@@ -1,54 +1,64 @@
 ﻿using System;
 using Android.Views;
-using Android.Support.V7.Widget;
 using System.Collections.Generic;
-using Android.Graphics;
+using Android.Widget;
 
 namespace Xamarin.TreeView
 {
     public class TreeViewAdapter : TreeView.Adapter
     {
-        private readonly int Layout;
+        public TreeViewAdapter() : base()
+        {}
+        public TreeViewAdapter(IList<ITreeViewNode> items) : base(items)
+        {}
 
-        public TreeViewAdapter(int layout) : base()
+        public override TreeView.ViewHolder OnCreateViewHolder(ViewGroup parent, TreeView tree, View itemView)
         {
-            this.Layout = layout;
+            TreeViewAdapter adapter = new TreeViewAdapter();
+            tree.SetAdapter(adapter);
+            return new TreeViewHolder(tree, itemView, OnClick, OnLongClick);
         }
-        public TreeViewAdapter(int layout, IList<ITreeViewNode> items) : base(items)
+
+        public override TreeView.ViewHolder OnCreateViewHolder(ViewGroup parent, View itemView)
         {
-            this.Layout = layout;
+            return new NodeViewHolder(itemView, OnClick, OnLongClick);
         }
 
-        public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
+        public override void OnBindViewHolder(TreeView.TreeViewHolder viewHolder, int position)
         {
-            View itemView = null;
+            ITreeViewNode node = Nodes[position];
+            var holder = viewHolder as TreeViewHolder;
 
-            switch (viewType)
+            if (holder.TextView != null)
+                holder.TextView.Text = $"{position}, {node.Children.Count}";
+        }
+
+        public override void OnBindViewHolder(TreeView.NodeViewHolder viewHolder, int position)
+        {
+            ITreeViewNode node = Nodes[position];
+            var holder = viewHolder as NodeViewHolder;
+
+            if (holder.TextView != null)
+                holder.TextView.Text = $"{position}, {node.Children.Count}";
+        }
+
+        private class NodeViewHolder : TreeView.NodeViewHolder
+        {
+            public TextView TextView { get; }
+
+            public NodeViewHolder(View itemView, Action<TreeView.ClickEventArgs> clickListener, Action<TreeView.ClickEventArgs> longClickListener) : base(itemView, clickListener, longClickListener)
             {
-                case (int)ViewType.Node:
-                    itemView = LayoutInflater.From(parent.Context).Inflate(Layout, parent, false);
-                    break;
-                case (int)ViewType.TreeNode:
-                    itemView = new TreeView(parent.Context);
-                    TreeViewAdapter adapter = new TreeViewAdapter(Layout);
-                    (itemView as TreeView).SetAdapter(adapter);
-                    break;
+                this.TextView = itemView.FindViewById<TextView>(Resource.Id.text);
             }
-
-            var vh = new ViewHolder(itemView, OnClick, OnLongClick);
-            return vh;
-        }
-        
-        public override void OnBindViewHolder(RecyclerView.ViewHolder viewHolder, int position)
-        {
-            ITreeViewNode item = Nodes[position];
-            var holder = viewHolder as ViewHolder;
         }
 
-        private class ViewHolder : TreeView.ViewHolder
+        private class TreeViewHolder : TreeView.TreeViewHolder
         {
-            public ViewHolder(View itemView, Action<TreeView.ClickEventArgs> clickListener, Action<TreeView.ClickEventArgs> longClickListener) : base(itemView, clickListener, longClickListener)
+            public TextView TextView { get; }
+
+            public TreeViewHolder(TreeView tree, View itemView, Action<TreeView.ClickEventArgs> clickListener, Action<TreeView.ClickEventArgs> longClickListener) : base(tree, itemView, clickListener, longClickListener)
             {
+                this.TextView = itemView.FindViewById<TextView>(Resource.Id.text);
             }
         }
     }

@@ -727,7 +727,9 @@ namespace DemoApp
 			global::Xamarin.TreeView.Resource.Id.title_template = global::DemoApp.Resource.Id.title_template;
 			global::Xamarin.TreeView.Resource.Id.top = global::DemoApp.Resource.Id.top;
 			global::Xamarin.TreeView.Resource.Id.topPanel = global::DemoApp.Resource.Id.topPanel;
-			global::Xamarin.TreeView.Resource.Id.trace = global::DemoApp.Resource.Id.trace;
+			global::Xamarin.TreeView.Resource.Id.treeview_listitem_wrapper_container = global::DemoApp.Resource.Id.treeview_listitem_wrapper_container;
+			global::Xamarin.TreeView.Resource.Id.treeview_listitem_wrapper_root = global::DemoApp.Resource.Id.treeview_listitem_wrapper_root;
+			global::Xamarin.TreeView.Resource.Id.treeview_listitem_wrapper_trace = global::DemoApp.Resource.Id.treeview_listitem_wrapper_trace;
 			global::Xamarin.TreeView.Resource.Id.uniform = global::DemoApp.Resource.Id.uniform;
 			global::Xamarin.TreeView.Resource.Id.up = global::DemoApp.Resource.Id.up;
 			global::Xamarin.TreeView.Resource.Id.useLogo = global::DemoApp.Resource.Id.useLogo;
@@ -784,8 +786,9 @@ namespace DemoApp
 			global::Xamarin.TreeView.Resource.Layout.select_dialog_multichoice_material = global::DemoApp.Resource.Layout.select_dialog_multichoice_material;
 			global::Xamarin.TreeView.Resource.Layout.select_dialog_singlechoice_material = global::DemoApp.Resource.Layout.select_dialog_singlechoice_material;
 			global::Xamarin.TreeView.Resource.Layout.support_simple_spinner_dropdown_item = global::DemoApp.Resource.Layout.support_simple_spinner_dropdown_item;
-			global::Xamarin.TreeView.Resource.Layout.tieredlistview_listitem = global::DemoApp.Resource.Layout.tieredlistview_listitem;
 			global::Xamarin.TreeView.Resource.Layout.tooltip = global::DemoApp.Resource.Layout.tooltip;
+			global::Xamarin.TreeView.Resource.Layout.treeview_listitem_default = global::DemoApp.Resource.Layout.treeview_listitem_default;
+			global::Xamarin.TreeView.Resource.Layout.treeview_listitem_wrapper = global::DemoApp.Resource.Layout.treeview_listitem_wrapper;
 			global::Xamarin.TreeView.Resource.String.abc_action_bar_home_description = global::DemoApp.Resource.String.abc_action_bar_home_description;
 			global::Xamarin.TreeView.Resource.String.abc_action_bar_up_description = global::DemoApp.Resource.String.abc_action_bar_up_description;
 			global::Xamarin.TreeView.Resource.String.abc_action_menu_overflow_description = global::DemoApp.Resource.String.abc_action_menu_overflow_description;
@@ -1538,10 +1541,6 @@ namespace DemoApp
 			global::Xamarin.TreeView.Resource.Styleable.TextAppearance_android_typeface = global::DemoApp.Resource.Styleable.TextAppearance_android_typeface;
 			global::Xamarin.TreeView.Resource.Styleable.TextAppearance_fontFamily = global::DemoApp.Resource.Styleable.TextAppearance_fontFamily;
 			global::Xamarin.TreeView.Resource.Styleable.TextAppearance_textAllCaps = global::DemoApp.Resource.Styleable.TextAppearance_textAllCaps;
-			global::Xamarin.TreeView.Resource.Styleable.TieredListItem = global::DemoApp.Resource.Styleable.TieredListItem;
-			global::Xamarin.TreeView.Resource.Styleable.TieredListItem_traceColor = global::DemoApp.Resource.Styleable.TieredListItem_traceColor;
-			global::Xamarin.TreeView.Resource.Styleable.TieredListItem_traceMargin = global::DemoApp.Resource.Styleable.TieredListItem_traceMargin;
-			global::Xamarin.TreeView.Resource.Styleable.TieredListItem_traceVisibility = global::DemoApp.Resource.Styleable.TieredListItem_traceVisibility;
 			global::Xamarin.TreeView.Resource.Styleable.Toolbar = global::DemoApp.Resource.Styleable.Toolbar;
 			global::Xamarin.TreeView.Resource.Styleable.Toolbar_android_gravity = global::DemoApp.Resource.Styleable.Toolbar_android_gravity;
 			global::Xamarin.TreeView.Resource.Styleable.Toolbar_android_minHeight = global::DemoApp.Resource.Styleable.Toolbar_android_minHeight;
@@ -1572,6 +1571,10 @@ namespace DemoApp
 			global::Xamarin.TreeView.Resource.Styleable.Toolbar_titleMargins = global::DemoApp.Resource.Styleable.Toolbar_titleMargins;
 			global::Xamarin.TreeView.Resource.Styleable.Toolbar_titleTextAppearance = global::DemoApp.Resource.Styleable.Toolbar_titleTextAppearance;
 			global::Xamarin.TreeView.Resource.Styleable.Toolbar_titleTextColor = global::DemoApp.Resource.Styleable.Toolbar_titleTextColor;
+			global::Xamarin.TreeView.Resource.Styleable.TreeNode = global::DemoApp.Resource.Styleable.TreeNode;
+			global::Xamarin.TreeView.Resource.Styleable.TreeNode_traceColor = global::DemoApp.Resource.Styleable.TreeNode_traceColor;
+			global::Xamarin.TreeView.Resource.Styleable.TreeNode_traceMargin = global::DemoApp.Resource.Styleable.TreeNode_traceMargin;
+			global::Xamarin.TreeView.Resource.Styleable.TreeNode_traceVisibility = global::DemoApp.Resource.Styleable.TreeNode_traceVisibility;
 			global::Xamarin.TreeView.Resource.Styleable.View = global::DemoApp.Resource.Styleable.View;
 			global::Xamarin.TreeView.Resource.Styleable.View_android_focusable = global::DemoApp.Resource.Styleable.View_android_focusable;
 			global::Xamarin.TreeView.Resource.Styleable.View_android_theme = global::DemoApp.Resource.Styleable.View_android_theme;
@@ -4160,14 +4163,14 @@ namespace DemoApp
 			// aapt resource value: 0x7f090063
 			public const int list_item = 2131296355;
 			
-			// aapt resource value: 0x7f0900b1
-			public const int masked = 2131296433;
+			// aapt resource value: 0x7f0900b4
+			public const int masked = 2131296436;
 			
 			// aapt resource value: 0x7f0900a2
 			public const int media_actions = 2131296418;
 			
-			// aapt resource value: 0x7f0900b0
-			public const int message = 2131296432;
+			// aapt resource value: 0x7f0900af
+			public const int message = 2131296431;
 			
 			// aapt resource value: 0x7f090033
 			public const int middle = 2131296307;
@@ -4388,8 +4391,8 @@ namespace DemoApp
 			// aapt resource value: 0x7f090092
 			public const int touch_outside = 2131296402;
 			
-			// aapt resource value: 0x7f0900af
-			public const int trace = 2131296431;
+			// aapt resource value: 0x7f0900b0
+			public const int trace = 2131296432;
 			
 			// aapt resource value: 0x7f09000f
 			public const int transition_current_scene = 2131296271;
@@ -4405,6 +4408,15 @@ namespace DemoApp
 			
 			// aapt resource value: 0x7f090013
 			public const int transition_transform = 2131296275;
+			
+			// aapt resource value: 0x7f0900b2
+			public const int treeview_listitem_wrapper_container = 2131296434;
+			
+			// aapt resource value: 0x7f0900b1
+			public const int treeview_listitem_wrapper_root = 2131296433;
+			
+			// aapt resource value: 0x7f0900b3
+			public const int treeview_listitem_wrapper_trace = 2131296435;
 			
 			// aapt resource value: 0x7f09002f
 			public const int uniform = 2131296303;
@@ -4664,13 +4676,16 @@ namespace DemoApp
 			public const int support_simple_spinner_dropdown_item = 2130968635;
 			
 			// aapt resource value: 0x7f04003c
-			public const int tieredlistview_listitem = 2130968636;
+			public const int tooltip = 2130968636;
 			
 			// aapt resource value: 0x7f04003d
-			public const int tooltip = 2130968637;
+			public const int treeview_listitem = 2130968637;
 			
 			// aapt resource value: 0x7f04003e
-			public const int treeviewitem = 2130968638;
+			public const int treeview_listitem_default = 2130968638;
+			
+			// aapt resource value: 0x7f04003f
+			public const int treeview_listitem_wrapper = 2130968639;
 			
 			static Layout()
 			{
@@ -7887,20 +7902,6 @@ namespace DemoApp
 			// aapt resource value: 15
 			public const int TextInputLayout_passwordToggleTintMode = 15;
 			
-			public static int[] TieredListItem = new int[] {
-					2130771968,
-					2130771969,
-					2130771970};
-			
-			// aapt resource value: 1
-			public const int TieredListItem_traceColor = 1;
-			
-			// aapt resource value: 2
-			public const int TieredListItem_traceMargin = 2;
-			
-			// aapt resource value: 0
-			public const int TieredListItem_traceVisibility = 0;
-			
 			public static int[] Toolbar = new int[] {
 					16842927,
 					16843072,
@@ -8018,6 +8019,20 @@ namespace DemoApp
 			
 			// aapt resource value: 27
 			public const int Toolbar_titleTextColor = 27;
+			
+			public static int[] TreeNode = new int[] {
+					2130771968,
+					2130771969,
+					2130771970};
+			
+			// aapt resource value: 1
+			public const int TreeNode_traceColor = 1;
+			
+			// aapt resource value: 2
+			public const int TreeNode_traceMargin = 2;
+			
+			// aapt resource value: 0
+			public const int TreeNode_traceVisibility = 0;
 			
 			public static int[] View = new int[] {
 					16842752,

@@ -2046,8 +2046,8 @@ namespace Xamarin.TreeView
 			// aapt resource value: 0x7f06006f
 			public static int media_actions = 2131099759;
 			
-			// aapt resource value: 0x7f06007d
-			public static int message = 2131099773;
+			// aapt resource value: 0x7f06007c
+			public static int message = 2131099772;
 			
 			// aapt resource value: 0x7f060024
 			public static int middle = 2131099684;
@@ -2208,8 +2208,14 @@ namespace Xamarin.TreeView
 			// aapt resource value: 0x7f06004c
 			public static int topPanel = 2131099724;
 			
-			// aapt resource value: 0x7f06007c
-			public static int trace = 2131099772;
+			// aapt resource value: 0x7f06007e
+			public static int treeview_listitem_wrapper_container = 2131099774;
+			
+			// aapt resource value: 0x7f06007d
+			public static int treeview_listitem_wrapper_root = 2131099773;
+			
+			// aapt resource value: 0x7f06007f
+			public static int treeview_listitem_wrapper_trace = 2131099775;
 			
 			// aapt resource value: 0x7f060020
 			public static int uniform = 2131099680;
@@ -2406,10 +2412,13 @@ namespace Xamarin.TreeView
 			public static int support_simple_spinner_dropdown_item = 2130903084;
 			
 			// aapt resource value: 0x7f03002d
-			public static int tieredlistview_listitem = 2130903085;
+			public static int tooltip = 2130903085;
 			
 			// aapt resource value: 0x7f03002e
-			public static int tooltip = 2130903086;
+			public static int treeview_listitem_default = 2130903086;
+			
+			// aapt resource value: 0x7f03002f
+			public static int treeview_listitem_wrapper = 2130903087;
 			
 			static Layout()
 			{
@@ -5008,20 +5017,6 @@ namespace Xamarin.TreeView
 			// aapt resource value: 11
 			public static int TextAppearance_textAllCaps = 11;
 			
-			public static int[] TieredListItem = new int[] {
-					2130772232,
-					2130772233,
-					2130772234};
-			
-			// aapt resource value: 1
-			public static int TieredListItem_traceColor = 1;
-			
-			// aapt resource value: 2
-			public static int TieredListItem_traceMargin = 2;
-			
-			// aapt resource value: 0
-			public static int TieredListItem_traceVisibility = 0;
-			
 			public static int[] Toolbar = new int[] {
 					16842927,
 					16843072,
@@ -5139,6 +5134,20 @@ namespace Xamarin.TreeView
 			
 			// aapt resource value: 27
 			public static int Toolbar_titleTextColor = 27;
+			
+			public static int[] TreeNode = new int[] {
+					2130772232,
+					2130772233,
+					2130772234};
+			
+			// aapt resource value: 1
+			public static int TreeNode_traceColor = 1;
+			
+			// aapt resource value: 2
+			public static int TreeNode_traceMargin = 2;
+			
+			// aapt resource value: 0
+			public static int TreeNode_traceVisibility = 0;
 			
 			public static int[] View = new int[] {
 					16842752,

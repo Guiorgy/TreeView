@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+	android:id="@+id/treeview_listitem_wrapper_root">
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/treeview_listitem_wrapper_container">
+
+		<View
+			android:layout_width="5dp"
+			android:layout_height="match_parent"
+			android:background="#777"
+			android:layout_marginRight="2dp"
+			android:id="@+id/treeview_listitem_wrapper_trace"/>
+
+	</LinearLayout>
+
+</LinearLayout>

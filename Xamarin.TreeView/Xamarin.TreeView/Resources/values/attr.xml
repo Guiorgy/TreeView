@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
-  <declare-styleable name="TieredListItem">
+  <declare-styleable name="TreeNode">
 
     <attr name="traceVisibility" format="reference|enum">
       <enum name="visible" value="0"/>

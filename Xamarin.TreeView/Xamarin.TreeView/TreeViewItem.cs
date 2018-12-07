@@ -9,7 +9,7 @@ namespace Xamarin.TreeView
         private static int count = 0;
         public int Id { get; set; } = count++;
         public ITreeViewNode Parent { get; set; }
-        public IList<ITreeViewNode> Children { get; set; } = new List<ITreeViewNode>();
+        public IList<ITreeViewNode> Children { get; } = new List<ITreeViewNode>();
 
         public void AddChild(ITreeViewNode child)
         {
@@ -36,7 +36,7 @@ namespace Xamarin.TreeView
     {
         int Id { get; set; }
         ITreeViewNode Parent { get; set; }
-        IList<ITreeViewNode> Children { get; set; }
+        IList<ITreeViewNode> Children { get; }
 
         void AddChild(ITreeViewNode item);
         void RemoveChild(ITreeViewNode item);
