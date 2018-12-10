@@ -12,10 +12,10 @@
 		android:id="@+id/treeview_listitem_wrapper_container">
 
 		<View
-			android:layout_width="5dp"
+			android:layout_width="10dp"
 			android:layout_height="match_parent"
-			android:background="#777"
-			android:layout_marginRight="2dp"
+			android:background="#0f0"
+			android:layout_marginRight="5dp"
 			android:id="@+id/treeview_listitem_wrapper_trace"/>
 
 	</LinearLayout>

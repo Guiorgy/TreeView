@@ -76,12 +76,6 @@ namespace Xamarin.TreeView
 		public partial class Attribute
 		{
 			
-			// aapt resource value: 0x7f01010d
-			public static int HeadMargin = 2130772237;
-			
-			// aapt resource value: 0x7f01010c
-			public static int NodeMargin = 2130772236;
-			
 			// aapt resource value: 0x7f010052
 			public static int actionBarDivider = 2130772050;
 			
@@ -466,6 +460,9 @@ namespace Xamarin.TreeView
 			// aapt resource value: 0x7f0100d6
 			public static int goIcon = 2130772182;
 			
+			// aapt resource value: 0x7f01010d
+			public static int head_margin = 2130772237;
+			
 			// aapt resource value: 0x7f01000a
 			public static int height = 2130771978;
 			
@@ -567,6 +564,9 @@ namespace Xamarin.TreeView
 			
 			// aapt resource value: 0x7f01000d
 			public static int navigationMode = 2130771981;
+			
+			// aapt resource value: 0x7f01010c
+			public static int node_margin = 2130772236;
 			
 			// aapt resource value: 0x7f0100c2
 			public static int numericModifiers = 2130772162;
@@ -833,16 +833,16 @@ namespace Xamarin.TreeView
 			public static int tooltipText = 2130772168;
 			
 			// aapt resource value: 0x7f010109
-			public static int traceColor = 2130772233;
+			public static int trace_color = 2130772233;
 			
 			// aapt resource value: 0x7f01010b
-			public static int traceMargin = 2130772235;
+			public static int trace_margin = 2130772235;
 			
 			// aapt resource value: 0x7f010108
-			public static int traceVisibility = 2130772232;
+			public static int trace_visibility = 2130772232;
 			
 			// aapt resource value: 0x7f01010a
-			public static int traceWidth = 2130772234;
+			public static int trace_width = 2130772234;
 			
 			// aapt resource value: 0x7f0100e0
 			public static int track = 2130772192;
@@ -5153,22 +5153,22 @@ namespace Xamarin.TreeView
 					2130772237};
 			
 			// aapt resource value: 5
-			public static int TreeView_HeadMargin = 5;
+			public static int TreeView_head_margin = 5;
 			
 			// aapt resource value: 4
-			public static int TreeView_NodeMargin = 4;
+			public static int TreeView_node_margin = 4;
 			
 			// aapt resource value: 1
-			public static int TreeView_traceColor = 1;
+			public static int TreeView_trace_color = 1;
 			
 			// aapt resource value: 3
-			public static int TreeView_traceMargin = 3;
+			public static int TreeView_trace_margin = 3;
 			
 			// aapt resource value: 0
-			public static int TreeView_traceVisibility = 0;
+			public static int TreeView_trace_visibility = 0;
 			
 			// aapt resource value: 2
-			public static int TreeView_traceWidth = 2;
+			public static int TreeView_trace_width = 2;
 			
 			public static int[] View = new int[] {
 					16842752,

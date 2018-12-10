@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Xamarin.TreeView
 {
-    public class TreeViewNode : TreeViewNodeAbstract {}
+    public class TreeViewNode : TreeViewNodeAbstract { }
+    public class TreeViewLeaf : TreeViewLeafAbstract { }
 
     public abstract class TreeViewNodeAbstract : ITreeViewNode
     {
-        private static int count = 0;
-        public int Id { get; set; } = count++;
+        private static Random Random = new Random();
+        public int Id { get; set; } = Random.Next();
         public ITreeViewNode Parent { get; set; }
         public IList<ITreeViewNode> Children { get; } = new List<ITreeViewNode>();
 
@@ -36,6 +38,26 @@ namespace Xamarin.TreeView
         {
             if (Children.Remove(child)) child.Parent = null;
         }
+    }
+
+    public abstract class TreeViewLeafAbstract : ITreeViewNode
+    {
+        private static Random Random;
+        public int Id { get; set; } = Random.Next();
+        public ITreeViewNode Parent { get; set; }
+        public IList<ITreeViewNode> Children { get; } = null;
+
+        public ITreeViewNode this[int index]
+        {
+            get => null;
+            set { }
+        }
+
+        public void AddChild(ITreeViewNode child) { }
+
+        public void ClearChildren() { }
+
+        public void RemoveChild(ITreeViewNode child) { }
     }
 
     public interface ITreeViewNode

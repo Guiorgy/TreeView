@@ -10,7 +10,12 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_margin="5dp"
-		android:backgroundTint="#00f"
+		app:trace_visibility="visible"
+		app:trace_color="#00f"
+		app:trace_width="10dp"
+		app:trace_margin="15dp"
+		app:head_margin="5dp"
+		app:node_margin="15dp"
 		android:id="@+id/list"/>
 
 </LinearLayout>

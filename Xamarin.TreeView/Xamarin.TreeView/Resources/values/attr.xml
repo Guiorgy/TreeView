@@ -3,16 +3,16 @@
 
   <declare-styleable name="TreeView">
 
-    <attr name="traceVisibility" format="reference|enum">
+    <attr name="trace_visibility" format="reference|enum">
       <enum name="visible" value="0"/>
       <enum name="invisible" value="2"/>
     </attr>
-    <attr name="traceColor" format="reference|color"/>
-    <attr name="traceWidth" format="reference|dimension"/>
-    <attr name="traceMargin" format="reference|dimension"/>
+    <attr name="trace_color" format="reference|color"/>
+    <attr name="trace_width" format="reference|dimension"/>
+    <attr name="trace_margin" format="reference|dimension"/>
 
-    <attr name="NodeMargin" format="reference|dimension"/>
-    <attr name="HeadMargin" format="reference|dimension"/>
+    <attr name="node_margin" format="reference|dimension"/>
+    <attr name="head_margin" format="reference|dimension"/>
 
   </declare-styleable>
 

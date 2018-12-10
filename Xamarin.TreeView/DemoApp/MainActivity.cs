@@ -41,8 +41,6 @@ namespace DemoApp
             {
                 System.Console.WriteLine($"LongClick. NodeType:{e.NodeType}, Position:{e.Position}, View:{(e.View is TextView ? "TextView" : e.View is LinearLayout ? "LinearLayout" : e.View is TreeView ? "TreeView" : "Other")}");
             };
-
-            
         }
     }
 }
