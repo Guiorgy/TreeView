@@ -26,6 +26,7 @@ namespace DemoApp
             };
             items[1].AddChild(new TreeViewNode());
             items[1].AddChild(new TreeViewNode());
+            items[1][1].AddChild(new TreeViewNode());
             items[1].AddChild(new TreeViewNode());
             TreeViewNode item = new TreeViewNode();
             item.AddChild(new TreeViewNode());
@@ -40,6 +41,8 @@ namespace DemoApp
             {
                 System.Console.WriteLine($"LongClick. NodeType:{e.NodeType}, Position:{e.Position}, View:{(e.View is TextView ? "TextView" : e.View is LinearLayout ? "LinearLayout" : e.View is TreeView ? "TreeView" : "Other")}");
             };
+
+            
         }
     }
 }

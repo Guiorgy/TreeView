@@ -11,6 +11,12 @@ namespace Xamarin.TreeView
         public ITreeViewNode Parent { get; set; }
         public IList<ITreeViewNode> Children { get; } = new List<ITreeViewNode>();
 
+        public ITreeViewNode this[int index]
+        {
+            get => Children[index];
+            set => Children[index] = value;
+        }
+
         public void AddChild(ITreeViewNode child)
         {
             child.Parent = this;
@@ -38,8 +44,8 @@ namespace Xamarin.TreeView
         ITreeViewNode Parent { get; set; }
         IList<ITreeViewNode> Children { get; }
 
-        void AddChild(ITreeViewNode item);
-        void RemoveChild(ITreeViewNode item);
+        void AddChild(ITreeViewNode child);
+        void RemoveChild(ITreeViewNode child);
         void ClearChildren();
     }
 }
