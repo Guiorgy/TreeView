@@ -76,6 +76,12 @@ namespace Xamarin.TreeView
 		public partial class Attribute
 		{
 			
+			// aapt resource value: 0x7f01010d
+			public static int HeadMargin = 2130772237;
+			
+			// aapt resource value: 0x7f01010c
+			public static int NodeMargin = 2130772236;
+			
 			// aapt resource value: 0x7f010052
 			public static int actionBarDivider = 2130772050;
 			
@@ -829,11 +835,14 @@ namespace Xamarin.TreeView
 			// aapt resource value: 0x7f010109
 			public static int traceColor = 2130772233;
 			
-			// aapt resource value: 0x7f01010a
-			public static int traceMargin = 2130772234;
+			// aapt resource value: 0x7f01010b
+			public static int traceMargin = 2130772235;
 			
 			// aapt resource value: 0x7f010108
 			public static int traceVisibility = 2130772232;
+			
+			// aapt resource value: 0x7f01010a
+			public static int traceWidth = 2130772234;
 			
 			// aapt resource value: 0x7f0100e0
 			public static int track = 2130772192;
@@ -5135,19 +5144,31 @@ namespace Xamarin.TreeView
 			// aapt resource value: 27
 			public static int Toolbar_titleTextColor = 27;
 			
-			public static int[] TreeNode = new int[] {
+			public static int[] TreeView = new int[] {
 					2130772232,
 					2130772233,
-					2130772234};
+					2130772234,
+					2130772235,
+					2130772236,
+					2130772237};
+			
+			// aapt resource value: 5
+			public static int TreeView_HeadMargin = 5;
+			
+			// aapt resource value: 4
+			public static int TreeView_NodeMargin = 4;
 			
 			// aapt resource value: 1
-			public static int TreeNode_traceColor = 1;
+			public static int TreeView_traceColor = 1;
 			
-			// aapt resource value: 2
-			public static int TreeNode_traceMargin = 2;
+			// aapt resource value: 3
+			public static int TreeView_traceMargin = 3;
 			
 			// aapt resource value: 0
-			public static int TreeNode_traceVisibility = 0;
+			public static int TreeView_traceVisibility = 0;
+			
+			// aapt resource value: 2
+			public static int TreeView_traceWidth = 2;
 			
 			public static int[] View = new int[] {
 					16842752,
