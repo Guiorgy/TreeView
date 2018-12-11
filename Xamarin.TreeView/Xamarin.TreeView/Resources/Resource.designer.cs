@@ -550,6 +550,9 @@ namespace Xamarin.TreeView
 			// aapt resource value: 0x7f0100f1
 			public static int maxButtonHeight = 2130772209;
 			
+			// aapt resource value: 0x7f01010e
+			public static int maxDepth = 2130772238;
+			
 			// aapt resource value: 0x7f0100be
 			public static int measureWithLargestChild = 2130772158;
 			
@@ -5150,10 +5153,14 @@ namespace Xamarin.TreeView
 					2130772234,
 					2130772235,
 					2130772236,
-					2130772237};
+					2130772237,
+					2130772238};
 			
 			// aapt resource value: 5
 			public static int TreeView_head_margin = 5;
+			
+			// aapt resource value: 6
+			public static int TreeView_maxDepth = 6;
 			
 			// aapt resource value: 4
 			public static int TreeView_node_margin = 4;

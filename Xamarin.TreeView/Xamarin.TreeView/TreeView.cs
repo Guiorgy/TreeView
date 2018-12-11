@@ -8,16 +8,19 @@ using Android.Views;
 using Android.Widget;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Xamarin.TreeView
 {
 #pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class TreeViewWrapper : RecyclerView
     {
         internal TreeViewWrapper(Context context) : base(context) { }
         internal TreeViewWrapper(Context context, IAttributeSet attrs) : base(context, attrs) { }
         internal TreeViewWrapper(Context context, IAttributeSet attrs, int defStyle) : base(context, attrs, defStyle) { }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Use SetAdapter(TreeView.Adapter adapter) instead.", true)]
         public sealed override void SetAdapter(RecyclerView.Adapter adapter)
         {
@@ -36,6 +39,7 @@ namespace Xamarin.TreeView
             base.SetAdapter(adapter);
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Use SwapAdapter(TreeView.Adapter adapter, bool removeAndRecycleExistingViews) instead.", true)]
         public sealed override void SwapAdapter(RecyclerView.Adapter adapter, bool removeAndRecycleExistingViews)
         {
@@ -66,6 +70,12 @@ namespace Xamarin.TreeView
 
             public abstract TreeView.ViewHolder OnCreateViewHolder(ViewGroup parent, TreeView.Adapter.NodeType nodeType);
 
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            public sealed override void OnBindViewHolder(ViewHolder holder, int position, IList<Java.Lang.Object> payloads)
+            {
+                base.OnBindViewHolder(holder, position, payloads);
+            }
+
             public sealed override void OnBindViewHolder(ViewHolder viewHolder, int position)
             {
                 this.OnBindViewHolder(viewHolder as TreeView.ViewHolder, position);
@@ -86,12 +96,91 @@ namespace Xamarin.TreeView
             this.GetAdapter().LongClick += LongClick;
         }
 
-        private protected bool TraceVisible { get; set; }
-        private protected int TraceColor { get; set; }
-        private protected float TraceWidth { get; set; }
-        private protected float TraceMargin { get; set; }
-        private protected float NodeMargin { get; set; }
-        private protected float HeadMargin { get; set; }
+        #region Attributes
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public sealed class TreeViewAttributes
+        {
+            public ViewStates TraceVisibility;
+            public int TraceColor;
+            public int TraceWidth;
+            public int TraceMargin;
+            public int NodeMargin;
+            public int HeadMargin;
+            public int MaxDepth;
+        }
+        internal TreeViewAttributes Attributes = new TreeViewAttributes();
+
+        public bool IsTraceVisible
+        {
+            get => Attributes.TraceVisibility == ViewStates.Visible;
+            set
+            {
+                Attributes.TraceVisibility = value ? ViewStates.Visible : ViewStates.Invisible;
+                Adapter adapter = this.GetAdapter();
+                if(adapter != null) adapter.Attributes.TraceVisibility = Attributes.TraceVisibility;
+            }
+        }
+        public int TraceColor
+        {
+            get => Attributes.TraceColor;
+            set
+            {
+                Attributes.TraceColor = value;
+                Adapter adapter = this.GetAdapter();
+                if (adapter != null) adapter.Attributes.TraceColor = value;
+            }
+        }
+        public int TraceWidth
+        {
+            get => Attributes.TraceWidth;
+            set
+            {
+                Attributes.TraceWidth = value;
+                Adapter adapter = this.GetAdapter();
+                if (adapter != null) adapter.Attributes.TraceWidth = value;
+            }
+        }
+        public int TraceMargin
+        {
+            get => Attributes.TraceMargin;
+            set
+            {
+                Attributes.TraceMargin = value;
+                Adapter adapter = this.GetAdapter();
+                if (adapter != null) adapter.Attributes.TraceMargin = value;
+            }
+        }
+        public int NodeMargin
+        {
+            get => Attributes.NodeMargin;
+            set
+            {
+                Attributes.NodeMargin = value;
+                Adapter adapter = this.GetAdapter();
+                if (adapter != null) adapter.Attributes.NodeMargin = value;
+            }
+        }
+        public int HeadMargin
+        {
+            get => Attributes.HeadMargin;
+            set
+            {
+                Attributes.HeadMargin = value;
+                Adapter adapter = this.GetAdapter();
+                if (adapter != null) adapter.Attributes.HeadMargin = value;
+            }
+        }
+        public int MaxDepth
+        {
+            get => Attributes.MaxDepth;
+            set
+            {
+                Attributes.MaxDepth = value;
+                Adapter adapter = this.GetAdapter();
+                if (adapter != null) adapter.Attributes.MaxDepth = value;
+            }
+        }
+        #endregion
 
         public TreeView(Context context) : base(context) => Initialize(context, null);
         public TreeView(Context context, IAttributeSet attrs) : base(context, attrs) => Initialize(context, attrs);
@@ -99,21 +188,43 @@ namespace Xamarin.TreeView
 
         private void Initialize(Context context, IAttributeSet set)
         {
+            if (IsInEditMode) return;
+
             LayoutManager layoutManager = new LinearLayoutManager(context, Vertical, false);
             this.SetLayoutManager(layoutManager);
-
-            //NodeMargin = TypedValue.ApplyDimension(ComplexUnitType.Dip, 10, context.Resources.DisplayMetrics);
-            //HeadMargin = TypedValue.ApplyDimension(ComplexUnitType.Dip, 5, context.Resources.DisplayMetrics);
-
-            if (set == null) return;
+            
+            if (set == null)
+            {
+                Attributes.TraceVisibility = ViewStates.Visible;
+                Attributes.TraceColor = unchecked((int)0xff00ff00);
+                Attributes.TraceWidth = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 3, context.Resources.DisplayMetrics);
+                Attributes.TraceMargin = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 6, context.Resources.DisplayMetrics);
+                Attributes.NodeMargin = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 7, context.Resources.DisplayMetrics);
+                Attributes.HeadMargin = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 4, context.Resources.DisplayMetrics);
+                Attributes.MaxDepth = int.MaxValue;
+                return;
+            }
 
             TypedArray attrs = context.ObtainStyledAttributes(set, Resource.Styleable.TreeView);
-            TraceVisible = attrs.GetInt(Resource.Styleable.TreeView_trace_visibility, 0) == 0;
-            TraceColor = attrs.GetColor(Resource.Styleable.TreeView_trace_color, 0xd3d3d3);
-            TraceWidth = attrs.GetDimension(Resource.Styleable.TreeView_trace_width, 2f);
-            TraceMargin = attrs.GetDimension(Resource.Styleable.TreeView_trace_margin, 5f);
-            NodeMargin = attrs.GetDimension(Resource.Styleable.TreeView_node_margin, 7f);
-            HeadMargin = attrs.GetDimension(Resource.Styleable.TreeView_head_margin, 5f);
+            try
+            {
+                Attributes.TraceVisibility = attrs.GetInt(Resource.Styleable.TreeView_trace_visibility, 0)
+                    == 0 ? ViewStates.Visible : ViewStates.Invisible;
+                Attributes.TraceColor = attrs.GetColor(Resource.Styleable.TreeView_trace_color, unchecked((int)0xffb3b3b3));
+                Attributes.TraceWidth = (int)attrs.GetDimension(Resource.Styleable.TreeView_trace_width,
+                    (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 3, context.Resources.DisplayMetrics));
+                Attributes.TraceMargin = (int)attrs.GetDimension(Resource.Styleable.TreeView_trace_margin,
+                    (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 6, context.Resources.DisplayMetrics));
+                Attributes.NodeMargin = (int)attrs.GetDimension(Resource.Styleable.TreeView_node_margin,
+                    (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 7, context.Resources.DisplayMetrics));
+                Attributes.HeadMargin = (int)attrs.GetDimension(Resource.Styleable.TreeView_head_margin,
+                    (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 4, context.Resources.DisplayMetrics));
+                Attributes.MaxDepth = attrs.GetInt(Resource.Styleable.TreeView_maxDepth, int.MaxValue);
+            }
+            finally
+            {
+                attrs.Recycle();
+            }
         }
 
         public override void SetAdapter(Adapter adapter)
@@ -125,12 +236,7 @@ namespace Xamarin.TreeView
                 this.Nodes = null;
             }
 
-            adapter.TraceVisible = this.TraceVisible;
-            adapter.TraceColor = this.TraceColor;
-            adapter.TraceWidth = (int)this.TraceWidth;
-            adapter.TraceMargin = (int)this.TraceMargin;
-            adapter.NodeMargin = (int)this.NodeMargin;
-            adapter.HeadMargin = (int)this.HeadMargin;
+            adapter.Attributes = Attributes;
         }
 
         public override void SwapAdapter(Adapter adapter, bool removeAndRecycleExistingViews)
@@ -142,20 +248,15 @@ namespace Xamarin.TreeView
             }
             base.SwapAdapter(adapter, removeAndRecycleExistingViews);
 
-            adapter.TraceVisible = this.TraceVisible;
-            adapter.TraceColor = this.TraceColor;
-            adapter.TraceWidth = (int)this.TraceWidth;
-            adapter.TraceMargin = (int)this.TraceMargin;
-            adapter.NodeMargin = (int)this.NodeMargin;
-            adapter.HeadMargin = (int)this.HeadMargin;
+            adapter.Attributes = Attributes;
         }
 
         new public Adapter GetAdapter() => (base.GetAdapter() as Adapter);
         
         public new abstract class Adapter : TreeViewWrapper.Adapter
         {
-            public const int WrapContent = ViewGroup.LayoutParams.WrapContent;
-            public const int MatchParent = ViewGroup.LayoutParams.MatchParent;
+            internal const int WrapContent = ViewGroup.LayoutParams.WrapContent;
+            internal const int MatchParent = ViewGroup.LayoutParams.MatchParent;
 
             public event EventHandler<ClickEventArgs> Click;
             public event EventHandler<ClickEventArgs> LongClick;
@@ -174,13 +275,7 @@ namespace Xamarin.TreeView
                 }
             }
             protected int Layout { get; } = Resource.Layout.treeview_listitem_default;
-
-            public bool TraceVisible { get; set; }
-            public int TraceColor { get; set; }
-            public int TraceWidth { get; set; }
-            public int TraceMargin { get; set; }
-            public int NodeMargin { get; set; }
-            public int HeadMargin { get; set; }
+            protected internal TreeViewAttributes Attributes { get; set; }
 
             protected Adapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) => this.nodes = new List<ITreeViewNode>();
             public Adapter() : base() => this.nodes = new List<ITreeViewNode>();
@@ -196,6 +291,7 @@ namespace Xamarin.TreeView
                 this.Layout = layout;
             }
 
+            #region Node Manipulations
             public void AddNode(ITreeViewNode node)
             {
                 this.nodes.Add(node);
@@ -235,26 +331,31 @@ namespace Xamarin.TreeView
                 }
                 NotifyDataSetChanged();
             }
+            public void ClearNodes()
+            {
+                this.nodes.Clear();
+                NotifyDataSetChanged();
+            }
+            #endregion
 
             public sealed override int ItemCount => this.nodes.Count;
             public sealed override long GetItemId(int position) => this.nodes[position].Id;
-            public sealed override int GetItemViewType(int position) => this.nodes[position].Children.Count > 0 ? (int)NodeType.TreeNode : (int)NodeType.SingleNode;
+            public sealed override int GetItemViewType(int position) => this.nodes[position].Children.Count > 0 ? (int)NodeType.Node : (int)NodeType.Leaf;
 
             public void OnClick(ClickEventArgs args) => Click?.Invoke(this, args);
             public void OnLongClick(ClickEventArgs args) => LongClick?.Invoke(this, args);
 
             public enum NodeType{
                 None = 0,
-                SingleNode = 1,
-                TreeNode = 2,
+                Leaf = 1,
+                Node = 2,
             }
 
             private static SparseArray<Color> colors = new SparseArray<Color>();
             private static Color GetColor(int hex)
             {
-                
                 Color color = colors.Get(hex, default);
-                if (!color.Equals(default)) return color;
+                if (!color.Equals(default(Color))) return color;
 
                 int alpha = Color.GetAlphaComponent(hex);
                 int red = Color.GetRedComponent(hex);
@@ -266,43 +367,42 @@ namespace Xamarin.TreeView
                 return color;
             }
 
-            public override ViewHolder OnCreateViewHolder(ViewGroup parent, NodeType nodeType)
+            public sealed override ViewHolder OnCreateViewHolder(ViewGroup parent, NodeType nodeType)
             {
                 View itemView = LayoutInflater.From(parent.Context).Inflate(Layout, parent, false);
 
                 switch (nodeType)
                 {
-                    case NodeType.SingleNode:
+                    case NodeType.Leaf:
                         NodeViewHolder vh = OnCreateViewHolder(parent, itemView);
                         vh.SetClickListeners(OnClick, OnLongClick);
-                        (vh.ItemView.LayoutParameters as MarginLayoutParams).TopMargin = NodeMargin;
+                        (vh.ItemView.LayoutParameters as MarginLayoutParams).TopMargin = Attributes.NodeMargin;
                         return vh;
-                    case NodeType.TreeNode:
-                        TreeViewHolder tvh = OnCreateViewHolder(parent, new TreeView(parent.Context)
-                        {
-                            LayoutParameters = new LayoutParams(MatchParent, WrapContent)
-                        }, itemView);
+                    case NodeType.Node:
+                        TreeView tree = new TreeView(parent.Context) { LayoutParameters = new LayoutParams(MatchParent, WrapContent) };
+                        tree.Attributes = Attributes;
+                        TreeViewHolder tvh = OnCreateViewHolder(parent, tree, itemView);
                         tvh.SetClickListeners(OnClick, OnLongClick, Click, LongClick);
-                        tvh.Trace.Visibility = TraceVisible ? ViewStates.Visible : ViewStates.Invisible;
-                        tvh.Trace.SetBackgroundColor(GetColor(TraceColor));
-                        tvh.Trace.LayoutParameters.Width = TraceWidth;
-                        (tvh.Trace.LayoutParameters as MarginLayoutParams).RightMargin = TraceMargin;
-                        (tvh.ItemView.LayoutParameters as MarginLayoutParams).TopMargin = NodeMargin;
-                        (tvh.Tree.LayoutParameters as MarginLayoutParams).TopMargin = HeadMargin;
+                        tvh.Trace.Visibility = Attributes.TraceVisibility;
+                        tvh.Trace.SetBackgroundColor(GetColor(Attributes.TraceColor));
+                        tvh.Trace.LayoutParameters.Width = Attributes.TraceWidth;
+                        (tvh.Trace.LayoutParameters as MarginLayoutParams).RightMargin = Attributes.TraceMargin;
+                        (tvh.ItemView.LayoutParameters as MarginLayoutParams).TopMargin = Attributes.NodeMargin;
+                        (tvh.Tree.LayoutParameters as MarginLayoutParams).TopMargin = Attributes.HeadMargin;
                         return tvh;
                     default:
-                        goto case NodeType.SingleNode;
+                        goto case NodeType.Leaf;
                 }
             }
 
             public abstract TreeViewHolder OnCreateViewHolder(ViewGroup parent, TreeView tree, View itemView);
             public abstract NodeViewHolder OnCreateViewHolder(ViewGroup parent, View itemView);
 
-            public override void OnBindViewHolder(ViewHolder viewHolder, int position)
+            public sealed override void OnBindViewHolder(ViewHolder viewHolder, int position)
             {
                 if (position == 0)
                 {
-                    //(viewHolder.ItemView.LayoutParameters as MarginLayoutParams).TopMargin -= (int)NodeMargin;
+                    (viewHolder.ItemView.LayoutParameters as MarginLayoutParams).TopMargin -= Attributes.NodeMargin;
                 }
 
                 if (viewHolder is TreeViewHolder)
@@ -323,11 +423,6 @@ namespace Xamarin.TreeView
                 {
                     OnBindViewHolder(viewHolder as NodeViewHolder, position);
                 }
-            }
-
-            public sealed override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position, IList<Java.Lang.Object> payloads)
-            {
-                base.OnBindViewHolder(holder, position, payloads);
             }
 
             public abstract void OnBindViewHolder(TreeViewHolder viewHolder, int position);
@@ -373,8 +468,8 @@ namespace Xamarin.TreeView
 
             internal void SetClickListeners(Action<ClickEventArgs> OnClick, Action<ClickEventArgs> OnLongClick, EventHandler<ClickEventArgs> Click, EventHandler<ClickEventArgs> LongClick)
             {
-                this.Head.Click += (sender, e) => OnClick(new ClickEventArgs { View = this.Head, NodeType = Adapter.NodeType.TreeNode, Position = AdapterPosition });
-                this.Head.LongClick += (sender, e) => OnLongClick(new ClickEventArgs { View = this.Head, NodeType = Adapter.NodeType.TreeNode, Position = AdapterPosition });
+                this.Head.Click += (sender, e) => OnClick(new ClickEventArgs { View = this.Head, NodeType = Adapter.NodeType.Node, Position = AdapterPosition });
+                this.Head.LongClick += (sender, e) => OnLongClick(new ClickEventArgs { View = this.Head, NodeType = Adapter.NodeType.Node, Position = AdapterPosition });
                 this.Tree.SetClickListeners(Click, LongClick);
             }
         }
@@ -388,8 +483,8 @@ namespace Xamarin.TreeView
 
             internal void SetClickListeners(Action<ClickEventArgs> OnClick, Action<ClickEventArgs> OnLongClick)
             {
-                this.ItemView.Click += (sender, e) => OnClick(new ClickEventArgs { View = this.ItemView, NodeType = Adapter.NodeType.SingleNode, Position = AdapterPosition });
-                this.ItemView.LongClick += (sender, e) => OnLongClick(new ClickEventArgs { View = this.ItemView, NodeType = Adapter.NodeType.SingleNode, Position = AdapterPosition });
+                this.ItemView.Click += (sender, e) => OnClick(new ClickEventArgs { View = this.ItemView, NodeType = Adapter.NodeType.Leaf, Position = AdapterPosition });
+                this.ItemView.LongClick += (sender, e) => OnLongClick(new ClickEventArgs { View = this.ItemView, NodeType = Adapter.NodeType.Leaf, Position = AdapterPosition });
             }
         }
 

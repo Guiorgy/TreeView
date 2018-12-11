@@ -11,11 +11,12 @@
 		android:layout_height="match_parent"
 		android:layout_margin="5dp"
 		app:trace_visibility="visible"
-		app:trace_color="#00f"
-		app:trace_width="10dp"
-		app:trace_margin="15dp"
-		app:head_margin="5dp"
-		app:node_margin="15dp"
+		app:trace_color="#ffb3b3b3"
+		app:trace_width="3dp"
+		app:trace_margin="6dp"
+		app:node_margin="7dp"
+		app:head_margin="4dp"
+		app:maxDepth="10"
 		android:id="@+id/list"/>
 
 </LinearLayout>

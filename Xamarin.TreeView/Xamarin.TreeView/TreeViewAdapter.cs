@@ -40,22 +40,22 @@ namespace Xamarin.TreeView
             if (holder.TextView != null)
                 holder.TextView.Text = $"{position}, {node.Children.Count}";
         }
+        
+        private class TreeViewHolder : TreeView.TreeViewHolder
+        {
+            public TextView TextView { get; }
+
+            public TreeViewHolder(TreeView tree, View itemView) : base(tree, itemView)
+            {
+                this.TextView = itemView.FindViewById<TextView>(Resource.Id.text);
+            }
+        }
 
         private class NodeViewHolder : TreeView.NodeViewHolder
         {
             public TextView TextView { get; }
 
             public NodeViewHolder(View itemView) : base(itemView)
-            {
-                this.TextView = itemView.FindViewById<TextView>(Resource.Id.text);
-            }
-        }
-
-        private class TreeViewHolder : TreeView.TreeViewHolder
-        {
-            public TextView TextView { get; }
-
-            public TreeViewHolder(TreeView tree, View itemView) : base(tree, itemView)
             {
                 this.TextView = itemView.FindViewById<TextView>(Resource.Id.text);
             }

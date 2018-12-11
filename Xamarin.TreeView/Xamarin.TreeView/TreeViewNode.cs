@@ -42,7 +42,7 @@ namespace Xamarin.TreeView
 
     public abstract class TreeViewLeafAbstract : ITreeViewNode
     {
-        private static Random Random;
+        private static Random Random = new Random();
         public int Id { get; set; } = Random.Next();
         public ITreeViewNode Parent { get; set; }
         public IList<ITreeViewNode> Children { get; } = null;
