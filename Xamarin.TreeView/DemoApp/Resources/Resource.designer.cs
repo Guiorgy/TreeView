@@ -791,7 +791,6 @@ namespace DemoApp
 			global::Xamarin.TreeView.Resource.Layout.select_dialog_singlechoice_material = global::DemoApp.Resource.Layout.select_dialog_singlechoice_material;
 			global::Xamarin.TreeView.Resource.Layout.support_simple_spinner_dropdown_item = global::DemoApp.Resource.Layout.support_simple_spinner_dropdown_item;
 			global::Xamarin.TreeView.Resource.Layout.tooltip = global::DemoApp.Resource.Layout.tooltip;
-			global::Xamarin.TreeView.Resource.Layout.treeview_listitem_default = global::DemoApp.Resource.Layout.treeview_listitem_default;
 			global::Xamarin.TreeView.Resource.Layout.treeview_listitem_wrapper = global::DemoApp.Resource.Layout.treeview_listitem_wrapper;
 			global::Xamarin.TreeView.Resource.String.abc_action_bar_home_description = global::DemoApp.Resource.String.abc_action_bar_home_description;
 			global::Xamarin.TreeView.Resource.String.abc_action_bar_up_description = global::DemoApp.Resource.String.abc_action_bar_up_description;
@@ -4700,6 +4699,9 @@ namespace DemoApp
 			
 			// aapt resource value: 0x7f04003e
 			public const int treeview_listitem_wrapper = 2130968638;
+			
+			// aapt resource value: 0x7f04003f
+			public const int treeview_node = 2130968639;
 			
 			static Layout()
 			{

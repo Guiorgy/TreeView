@@ -5,6 +5,7 @@ using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
+using Android.Views.Animations;
 using Android.Widget;
 using System;
 using System.Collections.Generic;
@@ -85,7 +86,7 @@ namespace Xamarin.TreeView
         }
     }
 
-    [Register("treeview.TreeView", DoNotGenerateAcw = false)]
+    [Register("treeview.TreeView", DoNotGenerateAcw = true)]
     public class TreeView : TreeViewWrapper
     {
         private IList<ITreeViewNode> Nodes { get; set; } = null;
@@ -117,7 +118,7 @@ namespace Xamarin.TreeView
             {
                 Attributes.TraceVisibility = value ? ViewStates.Visible : ViewStates.Invisible;
                 Adapter adapter = this.GetAdapter();
-                if(adapter != null) adapter.Attributes.TraceVisibility = Attributes.TraceVisibility;
+                if (adapter != null) adapter.Attributes.TraceVisibility = Attributes.TraceVisibility;
             }
         }
         public int TraceColor
@@ -192,7 +193,7 @@ namespace Xamarin.TreeView
 
             LayoutManager layoutManager = new LinearLayoutManager(context, Vertical, false);
             this.SetLayoutManager(layoutManager);
-            
+
             if (set == null)
             {
                 Attributes.TraceVisibility = ViewStates.Visible;
@@ -232,7 +233,7 @@ namespace Xamarin.TreeView
             base.SetAdapter(adapter);
             if (this.Nodes != null)
             {
-                adapter.AddNodes(this.Nodes);
+                adapter.Nodes = this.Nodes;
                 this.Nodes = null;
             }
 
@@ -243,7 +244,7 @@ namespace Xamarin.TreeView
         {
             if (this.Nodes != null)
             {
-                adapter.AddNodes(this.Nodes);
+                adapter.Nodes = this.Nodes;
                 this.Nodes = null;
             }
             base.SwapAdapter(adapter, removeAndRecycleExistingViews);
@@ -252,7 +253,7 @@ namespace Xamarin.TreeView
         }
 
         new public Adapter GetAdapter() => (base.GetAdapter() as Adapter);
-        
+
         public new abstract class Adapter : TreeViewWrapper.Adapter
         {
             internal const int WrapContent = ViewGroup.LayoutParams.WrapContent;
@@ -261,7 +262,7 @@ namespace Xamarin.TreeView
             public event EventHandler<ClickEventArgs> Click;
             public event EventHandler<ClickEventArgs> LongClick;
             private IList<ITreeViewNode> nodes;
-            protected IList<ITreeViewNode> Nodes
+            internal protected IList<ITreeViewNode> Nodes
             {
                 get
                 {
@@ -274,12 +275,10 @@ namespace Xamarin.TreeView
                     NotifyDataSetChanged();
                 }
             }
-            protected int Layout { get; } = Resource.Layout.treeview_listitem_default;
+            protected int Layout { get; }
             protected internal TreeViewAttributes Attributes { get; set; }
 
             protected Adapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) => this.nodes = new List<ITreeViewNode>();
-            public Adapter() : base() => this.nodes = new List<ITreeViewNode>();
-            public Adapter(IList<ITreeViewNode> nodes) : base() => this.nodes = nodes;
             public Adapter(int layout) : base()
             {
                 this.nodes = new List<ITreeViewNode>();
@@ -309,7 +308,7 @@ namespace Xamarin.TreeView
                 foreach (ITreeViewNode node in nodes) this.nodes.Add(node);
                 NotifyItemRangeChanged(from, nodes.Count);
             }
-            public void RemoveNode(ITreeViewNode node)
+            /*public void RemoveNode(ITreeViewNode node)
             {
                 int position = this.nodes.IndexOf(node);
                 this.nodes.Remove(node);
@@ -317,7 +316,7 @@ namespace Xamarin.TreeView
             }
             public void RemoveNodes(params ITreeViewNode[] nodes)
             {
-                foreach(ITreeViewNode node in nodes)
+                foreach (ITreeViewNode node in nodes)
                 {
                     this.nodes.Remove(node);
                 }
@@ -330,7 +329,7 @@ namespace Xamarin.TreeView
                     this.nodes.Remove(node);
                 }
                 NotifyDataSetChanged();
-            }
+            }*/
             public void ClearNodes()
             {
                 this.nodes.Clear();
@@ -345,7 +344,7 @@ namespace Xamarin.TreeView
             public void OnClick(ClickEventArgs args) => Click?.Invoke(this, args);
             public void OnLongClick(ClickEventArgs args) => LongClick?.Invoke(this, args);
 
-            public enum NodeType{
+            public enum NodeType {
                 None = 0,
                 Leaf = 1,
                 Node = 2,
@@ -400,18 +399,24 @@ namespace Xamarin.TreeView
 
             public sealed override void OnBindViewHolder(ViewHolder viewHolder, int position)
             {
+                viewHolder.Node = nodes[position];
+
                 if (position == 0)
                 {
-                    (viewHolder.ItemView.LayoutParameters as MarginLayoutParams).TopMargin -= Attributes.NodeMargin;
+                    (viewHolder.ItemView.LayoutParameters as MarginLayoutParams).TopMargin = 0;
+                }
+                else
+                {
+                    (viewHolder.ItemView.LayoutParameters as MarginLayoutParams).TopMargin = Attributes.NodeMargin;
                 }
 
                 if (viewHolder is TreeViewHolder)
                 {
                     TreeViewHolder vh = viewHolder as TreeViewHolder;
                     Adapter adapter = vh.Tree.GetAdapter();
-                    if(adapter != null)
+                    if (adapter != null)
                     {
-                        adapter.AddNodes(this.nodes[position].Children);
+                        adapter.Nodes = this.nodes[position].Children;
                     }
                     else
                     {
@@ -431,6 +436,8 @@ namespace Xamarin.TreeView
 
         new public abstract class ViewHolder : RecyclerView.ViewHolder
         {
+            public ITreeViewNode Node { get; internal set; }
+
             internal ViewHolder(View itemView) : base(itemView) { }
 
             internal protected ViewHolder(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
@@ -451,25 +458,24 @@ namespace Xamarin.TreeView
 
             private static View WrapView(TreeView tree, View itemView)
             {
-                LinearLayout RootView = LayoutInflater.From(itemView.Context).Inflate(Resource.Layout.treeview_listitem_wrapper, tree, false).FindViewById<LinearLayout>(Resource.Id.treeview_listitem_wrapper_root);
-                RootView.LayoutParameters = new LayoutParams(itemView.LayoutParameters);
-                RootView.LayoutParameters.Height = ViewGroup.LayoutParams.WrapContent;
+                ViewGroup RootView = LayoutInflater.From(itemView.Context).Inflate(Resource.Layout.treeview_listitem_wrapper, tree, false) as ViewGroup;
+                RootView.LayoutParameters = new LayoutParams(itemView.LayoutParameters) { Height = Adapter.WrapContent };
 
                 MarginLayoutParams parameters = itemView.LayoutParameters as MarginLayoutParams;
-                parameters.Width = ViewGroup.LayoutParams.MatchParent;
+                parameters.Width = Adapter.MatchParent;
                 parameters.SetMargins(0, 0, 0, 0);
                 RootView.AddView(itemView, 0, parameters);
 
                 LinearLayout wrapper = RootView.FindViewById<LinearLayout>(Resource.Id.treeview_listitem_wrapper_container);
-                wrapper.AddView(tree, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WrapContent, 1));
+                wrapper.AddView(tree, new LinearLayout.LayoutParams(0, Adapter.WrapContent, 1));
 
                 return RootView;
             }
 
             internal void SetClickListeners(Action<ClickEventArgs> OnClick, Action<ClickEventArgs> OnLongClick, EventHandler<ClickEventArgs> Click, EventHandler<ClickEventArgs> LongClick)
             {
-                this.Head.Click += (sender, e) => OnClick(new ClickEventArgs { View = this.Head, NodeType = Adapter.NodeType.Node, Position = AdapterPosition });
-                this.Head.LongClick += (sender, e) => OnLongClick(new ClickEventArgs { View = this.Head, NodeType = Adapter.NodeType.Node, Position = AdapterPosition });
+                this.Head.Click += (sender, e) => OnClick(new ClickEventArgs { Node = Node, View = this.Head, NodeType = Adapter.NodeType.Node, Position = AdapterPosition });
+                this.Head.LongClick += (sender, e) => OnLongClick(new ClickEventArgs { Node = Node, View = this.Head, NodeType = Adapter.NodeType.Node, Position = AdapterPosition });
                 this.Tree.SetClickListeners(Click, LongClick);
             }
         }
@@ -483,17 +489,111 @@ namespace Xamarin.TreeView
 
             internal void SetClickListeners(Action<ClickEventArgs> OnClick, Action<ClickEventArgs> OnLongClick)
             {
-                this.ItemView.Click += (sender, e) => OnClick(new ClickEventArgs { View = this.ItemView, NodeType = Adapter.NodeType.Leaf, Position = AdapterPosition });
-                this.ItemView.LongClick += (sender, e) => OnLongClick(new ClickEventArgs { View = this.ItemView, NodeType = Adapter.NodeType.Leaf, Position = AdapterPosition });
+                this.ItemView.Click += (sender, e) => OnClick(new ClickEventArgs { Node = Node, View = this.ItemView, NodeType = Adapter.NodeType.Leaf, Position = AdapterPosition });
+                this.ItemView.LongClick += (sender, e) => OnLongClick(new ClickEventArgs { Node = Node, View = this.ItemView, NodeType = Adapter.NodeType.Leaf, Position = AdapterPosition });
             }
         }
 
         public class ClickEventArgs : EventArgs
         {
+            public ITreeViewNode Node { get; set; }
             public View View { get; set; }
             public Adapter.NodeType NodeType { get; set; }
             public int Position { get; set; }
         }
+
+        #region Expand/Collapse Animation
+        protected class CollapseAnimation : Animation
+        {
+            private View View;
+            private readonly int height;
+
+            public CollapseAnimation(View view, int duration)
+            {
+                this.height = view.MeasuredHeight;
+
+                this.View = view;
+
+                this.SetAnimationListener(new AnimationListener(view));
+                this.Interpolator = new AccelerateInterpolator();
+                this.Duration = duration;
+
+                view.StartAnimation(this);
+            }
+
+            protected override void ApplyTransformation(float interpolatedTime, Transformation t)
+            {
+                View.LayoutParameters.Height = (int)(height - height * interpolatedTime);
+                View.RequestLayout();
+            }
+
+            private class AnimationListener : Java.Lang.Object, IAnimationListener
+            {
+                private View View;
+
+                public AnimationListener(View view)
+                {
+                    this.View = view;
+                }
+
+                public void OnAnimationStart(Animation animation) { }
+
+                public void OnAnimationEnd(Animation animation)
+                {
+                    View.Visibility = ViewStates.Gone;
+                }
+
+                public void OnAnimationRepeat(Animation animation) { }
+            }
+        }
+
+        protected class ExpandAnimation : Animation
+        {
+            private View View;
+            private readonly int height;
+
+            public ExpandAnimation(View view, int duration)
+            {
+                view.Measure(Adapter.MatchParent, Adapter.WrapContent);
+                this.height = view.MeasuredHeight;
+                view.LayoutParameters.Height = 1;
+                view.Visibility = ViewStates.Visible;
+
+                this.View = view;
+                
+                this.Interpolator = new AccelerateInterpolator();
+                this.Duration = duration;
+
+                view.StartAnimation(this);
+            }
+
+            protected override void ApplyTransformation(float interpolatedTime, Transformation t)
+            {
+                View.LayoutParameters.Height = (int)(height * interpolatedTime);
+                View.RequestLayout();
+            }
+        }
+
+        protected Animation animation;
+
+        protected bool CollapseView(View view, int duration)
+        {
+            if (animation != null && !animation.HasEnded) return false;
+
+            animation = new CollapseAnimation(view, duration);
+
+            return true;
+        }
+
+        protected bool ExpandView(View view, int duration)
+        {
+            if (animation != null && !animation.HasEnded) return false;
+
+            animation = new ExpandAnimation(view, duration);
+
+            return true;
+        }
+        #endregion
     }
 #pragma warning restore CS0809 // Obsolete member overrides non-obsolete member
 }

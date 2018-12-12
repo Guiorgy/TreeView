@@ -2427,10 +2427,7 @@ namespace Xamarin.TreeView
 			public static int tooltip = 2130903085;
 			
 			// aapt resource value: 0x7f03002e
-			public static int treeview_listitem_default = 2130903086;
-			
-			// aapt resource value: 0x7f03002f
-			public static int treeview_listitem_wrapper = 2130903087;
+			public static int treeview_listitem_wrapper = 2130903086;
 			
 			static Layout()
 			{

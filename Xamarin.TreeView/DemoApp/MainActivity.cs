@@ -35,11 +35,14 @@ namespace DemoApp
 
             adapter.Click += (object sender, TreeView.ClickEventArgs e) =>
             {
-                System.Console.WriteLine($"Click. NodeType:{e.NodeType}, Position:{e.Position}, View:{(e.View is TextView ? "TextView" : e.View is LinearLayout ? "LinearLayout" : e.View is TreeView ? "TreeView" : "Other")}");
+                System.Console.WriteLine($"Click. NodeId:{e.Node.Id}, NodeType:{e.NodeType}, Position:{e.Position}, View:{(e.View is TreeView ? "TreeView" : "Other")}");
+                adapter.AddNode(new TreeViewNode());
             };
             adapter.LongClick += (object sender, TreeView.ClickEventArgs e) =>
             {
-                System.Console.WriteLine($"LongClick. NodeType:{e.NodeType}, Position:{e.Position}, View:{(e.View is TextView ? "TextView" : e.View is LinearLayout ? "LinearLayout" : e.View is TreeView ? "TreeView" : "Other")}");
+                System.Console.WriteLine($"LongClick. NodeId:{e.Node.Id}, NodeType:{e.NodeType}, Position:{e.Position}, View:{(e.View is TreeView ? "TreeView" : "Other")}");
+                e.Node.AddChild(new TreeViewNode());
+                adapter.NotifyDataSetChanged();
             };
         }
     }

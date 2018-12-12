@@ -1,14 +1,15 @@
 ﻿using Android.Views;
 using System.Collections.Generic;
 using Android.Widget;
+using Xamarin.TreeView;
 
-namespace Xamarin.TreeView
+namespace DemoApp
 {
     public class TreeViewAdapter : TreeView.Adapter
     {
-        public TreeViewAdapter() : base()
+        public TreeViewAdapter() : base(Resource.Layout.treeview_node)
         {}
-        public TreeViewAdapter(IList<ITreeViewNode> items) : base(items)
+        public TreeViewAdapter(IList<ITreeViewNode> items) : base(Resource.Layout.treeview_node, items)
         {}
 
         public override TreeView.TreeViewHolder OnCreateViewHolder(ViewGroup parent, TreeView tree, View itemView)
@@ -29,7 +30,7 @@ namespace Xamarin.TreeView
             var holder = viewHolder as TreeViewHolder;
 
             if (holder.TextView != null)
-                holder.TextView.Text = $"{position}, {node.Children.Count}";
+                holder.TextView.Text = $"{position}, {node.Id}";
         }
 
         public override void OnBindViewHolder(TreeView.NodeViewHolder viewHolder, int position)
@@ -38,7 +39,7 @@ namespace Xamarin.TreeView
             var holder = viewHolder as NodeViewHolder;
 
             if (holder.TextView != null)
-                holder.TextView.Text = $"{position}, {node.Children.Count}";
+                holder.TextView.Text = $"{position}, {node.Id}";
         }
         
         private class TreeViewHolder : TreeView.TreeViewHolder
