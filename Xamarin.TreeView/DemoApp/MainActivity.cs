@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.OS;
 using Android.Support.V7.App;
-using Android.Widget;
 using Xamarin.TreeView;
 
 namespace DemoApp
@@ -35,12 +34,11 @@ namespace DemoApp
 
             adapter.Click += (object sender, TreeView.ClickEventArgs e) =>
             {
-                System.Console.WriteLine($"Click. NodeId:{e.Node.Id}, NodeType:{e.NodeType}, Position:{e.Position}, View:{(e.View is TreeView ? "TreeView" : "Other")}");
-                adapter.AddNode(new TreeViewNode());
+                System.Console.WriteLine($"Click. NodeId:{e.Node.Id}, Level:{e.Level}, Position:{e.Position}, NodeType{e.NodeType}");
             };
             adapter.LongClick += (object sender, TreeView.ClickEventArgs e) =>
             {
-                System.Console.WriteLine($"LongClick. NodeId:{e.Node.Id}, NodeType:{e.NodeType}, Position:{e.Position}, View:{(e.View is TreeView ? "TreeView" : "Other")}");
+                System.Console.WriteLine($"LongClick. NodeId:{e.Node.Id}, Level:{e.Level}, Position:{e.Position}, NodeType{e.NodeType}");
                 e.Node.AddChild(new TreeViewNode());
                 adapter.NotifyDataSetChanged();
             };

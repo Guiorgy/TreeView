@@ -13,8 +13,10 @@
 
     <attr name="node_margin" format="dimension"/>
     <attr name="head_margin" format="dimension"/>
+
+    <attr name="collapsed" format="boolean"/>
     
-    <attr name="maxDepth" format="integer"/>
+    <attr name="maxLevel" format="integer"/>
 
   </declare-styleable>
 

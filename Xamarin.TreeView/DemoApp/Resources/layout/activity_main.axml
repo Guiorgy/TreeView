@@ -16,7 +16,8 @@
 		app:trace_margin="6dp"
 		app:node_margin="7dp"
 		app:head_margin="4dp"
-		app:maxDepth="10"
+		app:collapsed="true"
+		app:maxLevel="3"
 		android:id="@+id/list"/>
 
 </LinearLayout>
