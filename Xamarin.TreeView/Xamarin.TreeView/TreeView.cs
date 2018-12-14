@@ -107,9 +107,9 @@ namespace Xamarin.TreeView
             public int TraceMargin;
             public int NodeMargin;
             public int HeadMargin;
-            public bool Collapsed;
             public int MaxLevel;
             protected internal int Level;
+            protected internal bool Collapsed;
 
             public TreeViewAttributes() { }
             protected internal TreeViewAttributes(TreeViewAttributes attributes)
@@ -122,6 +122,7 @@ namespace Xamarin.TreeView
                 this.HeadMargin = attributes.HeadMargin;
                 this.MaxLevel = attributes.MaxLevel;
                 this.Level = attributes.Level;
+                this.Collapsed = attributes.Collapsed;
             }
         }
         internal TreeViewAttributes Attributes;
@@ -186,16 +187,6 @@ namespace Xamarin.TreeView
                 if (adapter != null) adapter.Attributes.HeadMargin = value;
             }
         }
-        public bool Collapsed
-        {
-            get => Attributes.Collapsed;
-            set
-            {
-                Attributes.Collapsed = value;
-                Adapter adapter = this.GetAdapter();
-                if (adapter != null) adapter.Attributes.Collapsed = value;
-            }
-        }
         public int MaxLevel
         {
             get => Attributes.MaxLevel;
@@ -214,6 +205,16 @@ namespace Xamarin.TreeView
                 Attributes.Level = value;
                 Adapter adapter = this.GetAdapter();
                 if (adapter != null) adapter.Attributes.Level = value;
+            }
+        }
+        public bool Collapsed
+        {
+            get => Attributes.Collapsed;
+            protected internal set
+            {
+                Attributes.Collapsed = value;
+                Adapter adapter = this.GetAdapter();
+                if (adapter != null) adapter.Attributes.Collapsed = value;
             }
         }
         #endregion
@@ -483,186 +484,10 @@ namespace Xamarin.TreeView
 
             internal ViewHolder(View itemView) : base(itemView) { }
             internal protected ViewHolder(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
-
-            #region Expand/Collapse Animation
-            protected class CollapseAnimation : Animation
-            {
-                protected readonly View View;
-                protected readonly int Height;
-                protected readonly bool Fade;
-
-                public CollapseAnimation(View view, IInterpolator interpolator, int duration, bool dofade, bool optimized)
-                {
-                    this.Height = view.MeasuredHeight;
-                    view.Visibility = ViewStates.Visible;
-
-                    this.View = view;
-                    this.Fade = dofade;
-
-                    this.SetAnimationListener(new AnimationListener(view, optimized));
-                    this.Interpolator = interpolator ?? new AccelerateInterpolator();
-                    this.Duration = duration;
-
-                    view.StartAnimation(this);
-                }
-
-                protected override void ApplyTransformation(float interpolatedTime, Transformation t)
-                {
-                    if (Fade) t.Alpha = interpolatedTime == 1 ? 0 : 1 - interpolatedTime * 0.8f;
-                    View.LayoutParameters.Height = interpolatedTime == 1 ? 0 : (int)(Height - Height * interpolatedTime);
-                    View.Invalidate();
-                    View.RequestLayout();
-                }
-
-                private class AnimationListener : Java.Lang.Object, IAnimationListener
-                {
-                    private readonly View View;
-                    private readonly bool Optimized;
-
-                    public AnimationListener(View view, bool optimized)
-                    {
-                        this.View = view;
-                        this.Optimized = optimized;
-                    }
-
-                    public void OnAnimationStart(Animation animation)
-                    {
-                        if (Optimized && View is ViewGroup)
-                        {
-                            ViewGroup view = View as ViewGroup;
-                            for (int i = view.ChildCount - 1; i >= 0; --i)
-                            {
-                                view.GetChildAt(i).Visibility = ViewStates.Gone;
-                            }
-                        }
-                    }
-
-                    public void OnAnimationEnd(Animation animation)
-                    {
-                        if (Optimized && View is ViewGroup)
-                        {
-                            ViewGroup view = View as ViewGroup;
-                            for (int i = view.ChildCount - 1; i >= 0; --i)
-                            {
-                                view.GetChildAt(i).Visibility = ViewStates.Visible;
-                            }
-                        }
-                        View.Visibility = ViewStates.Gone;
-                    }
-
-                    public void OnAnimationRepeat(Animation animation) { }
-                }
-
-                public override bool WillChangeBounds()
-                {
-                    return true;
-                }
-            }
-
-            protected class ExpandAnimation : Animation
-            {
-                protected readonly View View;
-                protected readonly int height;
-                protected readonly bool fade;
-
-                public ExpandAnimation(View view, IInterpolator interpolator, int duration, bool dofade, bool optimized)
-                {
-                    //view.Measure(Adapter.MatchParent, Adapter.WrapContent);
-                    view.Measure(MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified), MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified));
-                    this.height = view.MeasuredHeight;
-                    view.LayoutParameters.Height = 1;
-                    view.Visibility = ViewStates.Visible;
-
-                    this.View = view;
-                    this.fade = dofade;
-
-                    this.SetAnimationListener(new AnimationListener(view, optimized));
-                    this.Interpolator = interpolator ?? new AccelerateInterpolator();
-                    this.Duration = duration;
-
-                    view.StartAnimation(this);
-                }
-
-                protected override void ApplyTransformation(float interpolatedTime, Transformation t)
-                {
-                    if (fade) t.Alpha = interpolatedTime == 1 ? 1 : 0.2f + interpolatedTime * 0.8f;
-                    View.LayoutParameters.Height = interpolatedTime == 1 ? Adapter.WrapContent : (int)(height * interpolatedTime);
-                    View.Invalidate();
-                    View.RequestLayout();
-                }
-
-                private class AnimationListener : Java.Lang.Object, IAnimationListener
-                {
-                    private readonly View View;
-                    private readonly bool Optimized;
-
-                    public AnimationListener(View view, bool optimized)
-                    {
-                        this.View = view;
-                        this.Optimized = optimized;
-                    }
-
-                    public void OnAnimationStart(Animation animation)
-                    {
-                        if (Optimized && View is ViewGroup)
-                        {
-                            ViewGroup view = View as ViewGroup;
-                            for (int i = view.ChildCount - 1; i >= 0; --i)
-                            {
-                                view.GetChildAt(i).Visibility = ViewStates.Gone;
-                            }
-                        }
-                    }
-
-                    public void OnAnimationEnd(Animation animation)
-                    {
-                        if (Optimized && View is ViewGroup)
-                        {
-                            ViewGroup view = View as ViewGroup;
-                            for (int i = view.ChildCount - 1; i >= 0; --i)
-                            {
-                                view.GetChildAt(i).Visibility = ViewStates.Visible;
-                            }
-                        }
-                    }
-
-                    public void OnAnimationRepeat(Animation animation) { }
-                }
-
-                public override bool WillChangeBounds()
-                {
-                    return true;
-                }
-            }
-
-            protected Animation CollapseExpandAnimation;
-            protected const int DefaultDuration = 500;
-            protected const bool Defaultfade = false;
-            protected const bool DefaultOptimize = false;
-
-            protected bool CollapseView(View view, IInterpolator interpolator = null, int duration = DefaultDuration, bool fadeout = Defaultfade, bool optimized = DefaultOptimize)
-            {
-                if (CollapseExpandAnimation != null && !CollapseExpandAnimation.HasEnded) return false;
-
-                CollapseExpandAnimation = new CollapseAnimation(view, interpolator, duration, fadeout, optimized);
-
-                return true;
-            }
-
-            protected bool ExpandView(View view, IInterpolator interpolator = null, int duration = DefaultDuration, bool fadein = Defaultfade, bool optimized = DefaultOptimize)
-            {
-                if (CollapseExpandAnimation != null && !CollapseExpandAnimation.HasEnded) return false;
-
-                CollapseExpandAnimation = new ExpandAnimation(view, interpolator, duration, fadein, optimized);
-
-                return true;
-            }
-            #endregion
         }
 
         public abstract class TreeViewHolder : ViewHolder
         {
-            //protected internal TreeViewAttributes Attributes { get; }
             public TreeView Tree { get; }
             public View Head { get; }
             public View Trace { get; }
@@ -735,9 +560,7 @@ namespace Xamarin.TreeView
 
         public abstract class NodeViewHolder : ViewHolder
         {
-            public NodeViewHolder(View itemView) : base(itemView)
-            {
-            }
+            public NodeViewHolder(View itemView) : base(itemView) { }
 
             internal void SetClickListeners(Action<ClickEventArgs> OnClick, Action<ClickEventArgs> OnLongClick)
             {
@@ -754,6 +577,106 @@ namespace Xamarin.TreeView
             public int Level { get; set; }
             public int Position { get; set; }
         }
+
+
+
+        #region Expand/Collapse Animation
+        public class ExpandCollapseAnimation : Animation
+        {
+            protected readonly View View;
+            protected readonly bool Expand;
+            protected readonly int Height;
+            protected readonly bool Fade;
+
+            public ExpandCollapseAnimation(View view, bool expand, IInterpolator interpolator = null, int duration = DefaultDuration, bool doFade = Defaultfade, bool optimized = DefaultOptimized)
+            {
+                if (expand)
+                {
+                    //view.Measure(Adapter.MatchParent, Adapter.WrapContent);
+                    view.Measure(MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified), MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified));
+                    view.LayoutParameters.Height = 1;
+                }
+                this.Height = view.MeasuredHeight;
+                view.Visibility = ViewStates.Visible;
+
+                this.View = view;
+                this.Fade = doFade;
+                this.Expand = expand;
+
+                this.SetAnimationListener(new AnimationListener(view, expand, optimized));
+                this.Interpolator = interpolator ?? new AccelerateInterpolator();
+                this.Duration = duration;
+
+                view.StartAnimation(this);
+            }
+
+            protected override void ApplyTransformation(float interpolatedTime, Transformation t)
+            {
+                if (Expand)
+                {
+                    if (Fade) t.Alpha = interpolatedTime == 1 ? 1 : 0.2f + interpolatedTime * 0.8f;
+                    View.LayoutParameters.Height = interpolatedTime == 1 ? Adapter.WrapContent : (int)(Height * interpolatedTime);
+                }
+                else
+                {
+                    if (Fade) t.Alpha = interpolatedTime == 1 ? 0 : 1 - interpolatedTime * 0.8f;
+                    View.LayoutParameters.Height = interpolatedTime == 1 ? 0 : (int)(Height - Height * interpolatedTime);
+                }
+                View.Invalidate();
+                View.RequestLayout();
+            }
+
+            private class AnimationListener : Java.Lang.Object, IAnimationListener
+            {
+                private readonly View View;
+                private readonly bool Expand;
+                private readonly bool Optimized;
+
+                public AnimationListener(View view, bool expand, bool optimized)
+                {
+                    this.View = view;
+                    this.Optimized = optimized;
+                    this.Expand = expand;
+                }
+
+                public void OnAnimationStart(Animation animation)
+                {
+                    if (Optimized && View is ViewGroup)
+                    {
+                        ViewGroup view = View as ViewGroup;
+                        for (int i = view.ChildCount - 1; i >= 0; --i)
+                        {
+                            view.GetChildAt(i).Visibility = ViewStates.Gone;
+                        }
+                    }
+                }
+
+                public void OnAnimationEnd(Animation animation)
+                {
+                    if (Optimized && View is ViewGroup)
+                    {
+                        ViewGroup view = View as ViewGroup;
+                        for (int i = view.ChildCount - 1; i >= 0; --i)
+                        {
+                            view.GetChildAt(i).Visibility = ViewStates.Visible;
+                        }
+                    }
+                    View.Visibility = Expand ? ViewStates.Visible : ViewStates.Gone;
+                }
+
+                public void OnAnimationRepeat(Animation animation) { }
+            }
+
+            public override bool WillChangeBounds()
+            {
+                return true;
+            }
+        }
+
+        protected const int DefaultDuration = 500;
+        protected const bool Defaultfade = false;
+        protected const bool DefaultOptimized = false;
+        #endregion
     }
 #pragma warning restore CS0809 // Obsolete member overrides non-obsolete member
 }

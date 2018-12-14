@@ -45,21 +45,22 @@ namespace DemoApp
         
         private class TreeViewHolder : TreeView.TreeViewHolder
         {
+            protected ExpandCollapseAnimation ExpandCollapseAnimations;
+            private bool Collapsed;
             public TextView TextView { get; }
-            private bool collapsed = true;
 
             public TreeViewHolder(TreeView tree, View itemView) : base(tree, itemView)
             {
                 this.TextView = itemView.FindViewById<TextView>(Resource.Id.text);
 
-                this.Head.Click += Head_Click;
-            }
-
-            private void Head_Click(object sender, System.EventArgs e)
-            {
-                if (collapsed) this.ExpandView(this.TreeContainer, fadein: true);
-                else this.CollapseView(this.TreeContainer, fadeout: true);
-                collapsed = !collapsed;
+                this.Collapsed = tree.Collapsed;
+                this.Head.Click += (object sender, System.EventArgs e) =>
+                {
+                    if (ExpandCollapseAnimations != null && !ExpandCollapseAnimations.HasEnded) return;
+                    if (Collapsed) ExpandCollapseAnimations = new ExpandCollapseAnimation(this.TreeContainer, true, doFade: false);
+                    else ExpandCollapseAnimations = new ExpandCollapseAnimation(this.TreeContainer, false, doFade: false);
+                    Collapsed = !Collapsed;
+                };
             }
         }
 

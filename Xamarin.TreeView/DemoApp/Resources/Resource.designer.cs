@@ -1923,8 +1923,8 @@ namespace DemoApp
 			// aapt resource value: 0x7f0100fb
 			public const int collapseIcon = 2130772219;
 			
-			// aapt resource value: 0x7f010006
-			public const int collapsed = 2130771974;
+			// aapt resource value: 0x7f010007
+			public const int collapsed = 2130771975;
 			
 			// aapt resource value: 0x7f01011b
 			public const int collapsedTitleGravity = 2130772251;
@@ -2301,8 +2301,8 @@ namespace DemoApp
 			// aapt resource value: 0x7f0100f9
 			public const int maxButtonHeight = 2130772217;
 			
-			// aapt resource value: 0x7f010007
-			public const int maxLevel = 2130771975;
+			// aapt resource value: 0x7f010006
+			public const int maxLevel = 2130771974;
 			
 			// aapt resource value: 0x7f0100c6
 			public const int measureWithLargestChild = 2130772166;
@@ -8048,14 +8048,14 @@ namespace DemoApp
 					2130771974,
 					2130771975};
 			
-			// aapt resource value: 6
-			public const int TreeView_collapsed = 6;
+			// aapt resource value: 7
+			public const int TreeView_collapsed = 7;
 			
 			// aapt resource value: 5
 			public const int TreeView_head_margin = 5;
 			
-			// aapt resource value: 7
-			public const int TreeView_maxLevel = 7;
+			// aapt resource value: 6
+			public const int TreeView_maxLevel = 6;
 			
 			// aapt resource value: 4
 			public const int TreeView_node_margin = 4;
