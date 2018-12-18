@@ -15,11 +15,10 @@ namespace DemoApp
 
     public class TreeViewAdapter : TreeView.Adapter
     {
-        public TreeViewAdapter() : base()
-        {}
-        public TreeViewAdapter(IList<ITreeViewNode> items) : base(items)
-        {}
+        public TreeViewAdapter() : base() { }
+        public TreeViewAdapter(IList<ITreeViewNode> items) : base(items) { }
 
+        public override short GetViewType(int position) => 1;
         public override int GetLayout(NodeType nodeType, int viewType) => Resource.Layout.treeview_node;
 
         public override TreeView.NodeViewHolder OnCreateViewHolder(ViewGroup parent, TreeView tree, View itemView, int viewType)
@@ -60,8 +59,6 @@ namespace DemoApp
             if (holder.TextView != null)
                 holder.TextView.Text = $"{holder.Level}, {position}, {node.Id}";
         }
-
-        public override short GetViewType(int position) => 1;
 
         private class NodeViewHolder : TreeView.NodeViewHolder
         {

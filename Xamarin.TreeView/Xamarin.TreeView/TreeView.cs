@@ -384,8 +384,10 @@ namespace Xamarin.TreeView
             public sealed override long GetItemId(int position) => this.nodes[position].Id;
             [EditorBrowsable(EditorBrowsableState.Never)]
             public sealed override int GetItemViewType(int position) =>
-                GetViewType(position) * 10 + (this.nodes[position].Children.Count > 0 ? (int)NodeType.Node : (int)NodeType.Leaf);
+                GetViewType(position) * 10 + (int)GetNodeType(position);
+            public NodeType GetNodeType(int position) => this.nodes[position].Children.Count > 0 ? NodeType.Node : NodeType.Leaf;
             public abstract short GetViewType(int position);
+            public abstract int GetLayout(NodeType nodeType, int viewType);
 
             public void OnClick(ClickEventArgs args) => Click?.Invoke(this, args);
             public void OnLongClick(ClickEventArgs args) => LongClick?.Invoke(this, args);
@@ -395,8 +397,6 @@ namespace Xamarin.TreeView
                 Leaf = 1,
                 Node = 2,
             }
-
-            public abstract int GetLayout(NodeType nodeType, int viewType);
             
             public sealed override ViewHolder OnCreateViewHolder(ViewGroup parent, NodeType nodeType, int viewType)
             {

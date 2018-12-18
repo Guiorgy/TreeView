@@ -5,24 +5,24 @@ namespace Xamarin.TreeView
 {
     public abstract class TreeViewNodeAbstract : ITreeViewNode
     {
-        private static Random Random = new Random();
-        public int Id { get; set; } = Random.Next();
-        public ITreeViewNode Parent { get; set; }
-        public IList<ITreeViewNode> Children { get; } = new List<ITreeViewNode>();
+        protected static Random Random = new Random();
+        public virtual int Id { get; set; } = Random.Next();
+        public virtual ITreeViewNode Parent { get; set; }
+        public virtual IList<ITreeViewNode> Children { get; } = new List<ITreeViewNode>();
 
-        public ITreeViewNode this[int index]
+        public virtual ITreeViewNode this[int index]
         {
             get => Children[index];
             set => Children[index] = value;
         }
 
-        public void AddChild(ITreeViewNode child)
+        public virtual void AddChild(ITreeViewNode child)
         {
             child.Parent = this;
             Children.Add(child);
         }
 
-        public void ClearChildren()
+        public virtual void ClearChildren()
         {
             foreach (ITreeViewNode child in Children)
             {
@@ -31,7 +31,7 @@ namespace Xamarin.TreeView
             Children.Clear();
         }
 
-        public void RemoveChild(ITreeViewNode child)
+        public virtual void RemoveChild(ITreeViewNode child)
         {
             if (Children.Remove(child)) child.Parent = null;
         }
@@ -39,22 +39,22 @@ namespace Xamarin.TreeView
 
     public abstract class TreeViewLeafAbstract : ITreeViewNode
     {
-        private static Random Random = new Random();
-        public int Id { get; set; } = Random.Next();
-        public ITreeViewNode Parent { get; set; }
-        public IList<ITreeViewNode> Children { get; } = null;
+        protected static Random Random = new Random();
+        public virtual int Id { get; set; } = Random.Next();
+        public virtual ITreeViewNode Parent { get; set; }
+        public virtual IList<ITreeViewNode> Children { get; } = null;
 
-        public ITreeViewNode this[int index]
+        public virtual ITreeViewNode this[int index]
         {
             get => null;
             set { }
         }
 
-        public void AddChild(ITreeViewNode child) { }
+        public virtual void AddChild(ITreeViewNode child) { }
 
-        public void ClearChildren() { }
+        public virtual void ClearChildren() { }
 
-        public void RemoveChild(ITreeViewNode child) { }
+        public virtual void RemoveChild(ITreeViewNode child) { }
     }
 
     public interface ITreeViewNode
