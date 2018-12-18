@@ -16,8 +16,7 @@
 		app:trace_margin="6dp"
 		app:node_margin="7dp"
 		app:head_margin="4dp"
-		app:collapsed="false"
 		app:maxLevel="3"
-		android:id="@+id/list"/>
+		android:id="@+id/treeView"/>
 
 </LinearLayout>

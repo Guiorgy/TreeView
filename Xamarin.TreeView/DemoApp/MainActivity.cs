@@ -13,7 +13,7 @@ namespace DemoApp
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
-            TreeView treeView = FindViewById<TreeView>(Resource.Id.list);
+            TreeView treeView = FindViewById<TreeView>(Resource.Id.treeView);
             TreeViewAdapter adapter = new TreeViewAdapter();
             treeView.SetAdapter(adapter);
             TreeViewNode[] items =

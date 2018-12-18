@@ -3,9 +3,6 @@ using System.Collections.Generic;
 
 namespace Xamarin.TreeView
 {
-    public class TreeViewNode : TreeViewNodeAbstract { }
-    public class TreeViewLeaf : TreeViewLeafAbstract { }
-
     public abstract class TreeViewNodeAbstract : ITreeViewNode
     {
         private static Random Random = new Random();

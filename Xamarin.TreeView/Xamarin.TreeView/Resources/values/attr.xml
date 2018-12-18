@@ -16,8 +16,6 @@
     
     <attr name="maxLevel" format="integer"/>
 
-    <attr name="collapsed" format="boolean"/>
-
   </declare-styleable>
 
 </resources>

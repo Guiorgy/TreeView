@@ -66,10 +66,10 @@ namespace Xamarin.TreeView
 
             public sealed override ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
             {
-                return this.OnCreateViewHolder(parent, (TreeView.Adapter.NodeType)viewType);
+                return this.OnCreateViewHolder(parent, (TreeView.Adapter.NodeType)(viewType % 10), viewType / 10);
             }
 
-            public abstract TreeView.ViewHolder OnCreateViewHolder(ViewGroup parent, TreeView.Adapter.NodeType nodeType);
+            public abstract TreeView.ViewHolder OnCreateViewHolder(ViewGroup parent, TreeView.Adapter.NodeType nodeType, int viewType);
 
             [EditorBrowsable(EditorBrowsableState.Never)]
             public sealed override void OnBindViewHolder(ViewHolder holder, int position, IList<Java.Lang.Object> payloads)
@@ -109,7 +109,6 @@ namespace Xamarin.TreeView
             public int HeadMargin;
             public int MaxLevel;
             protected internal int Level;
-            protected internal bool Collapsed;
 
             public TreeViewAttributes() { }
             protected internal TreeViewAttributes(TreeViewAttributes attributes)
@@ -122,7 +121,6 @@ namespace Xamarin.TreeView
                 this.HeadMargin = attributes.HeadMargin;
                 this.MaxLevel = attributes.MaxLevel;
                 this.Level = attributes.Level;
-                this.Collapsed = attributes.Collapsed;
             }
         }
         internal TreeViewAttributes Attributes;
@@ -197,24 +195,14 @@ namespace Xamarin.TreeView
                 if (adapter != null) adapter.Attributes.MaxLevel = value;
             }
         }
-        protected internal int Level
+        public int Level
         {
             get => Attributes.Level;
-            set
+            protected internal set
             {
                 Attributes.Level = value;
                 Adapter adapter = this.GetAdapter();
                 if (adapter != null) adapter.Attributes.Level = value;
-            }
-        }
-        public bool Collapsed
-        {
-            get => Attributes.Collapsed;
-            protected internal set
-            {
-                Attributes.Collapsed = value;
-                Adapter adapter = this.GetAdapter();
-                if (adapter != null) adapter.Attributes.Collapsed = value;
             }
         }
         #endregion
@@ -256,7 +244,6 @@ namespace Xamarin.TreeView
                         TraceMargin = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 6, context.Resources.DisplayMetrics),
                         NodeMargin = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 7, context.Resources.DisplayMetrics),
                         HeadMargin = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 4, context.Resources.DisplayMetrics),
-                        Collapsed = false,
                         MaxLevel = int.MaxValue,
                     };
                 }
@@ -279,7 +266,6 @@ namespace Xamarin.TreeView
                     (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 7, context.Resources.DisplayMetrics));
                 Attributes.HeadMargin = (int)attrs.GetDimension(Resource.Styleable.TreeView_head_margin,
                     (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 4, context.Resources.DisplayMetrics));
-                Attributes.Collapsed = attrs.GetBoolean(Resource.Styleable.TreeView_collapsed, false);
                 Attributes.MaxLevel = attrs.GetInt(Resource.Styleable.TreeView_maxLevel, int.MaxValue);
             }
             finally
@@ -341,20 +327,11 @@ namespace Xamarin.TreeView
                     NotifyDataSetChanged();
                 }
             }
-            protected int Layout { get; }
             internal TreeViewAttributes Attributes { get; set; }
 
             protected Adapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) => this.nodes = new List<ITreeViewNode>();
-            public Adapter(int layout) : base()
-            {
-                this.nodes = new List<ITreeViewNode>();
-                this.Layout = layout;
-            }
-            public Adapter(int layout, IList<ITreeViewNode> nodes) : base()
-            {
-                this.nodes = nodes;
-                this.Layout = layout;
-            }
+            public Adapter() : base() => this.nodes = new List<ITreeViewNode>();
+            public Adapter(IList<ITreeViewNode> nodes) : base() => this.nodes = nodes;
 
             #region Node Manipulations
             public void AddNode(ITreeViewNode node)
@@ -405,7 +382,10 @@ namespace Xamarin.TreeView
 
             public sealed override int ItemCount => this.nodes.Count;
             public sealed override long GetItemId(int position) => this.nodes[position].Id;
-            public sealed override int GetItemViewType(int position) => this.nodes[position].Children.Count > 0 ? (int)NodeType.Node : (int)NodeType.Leaf;
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            public sealed override int GetItemViewType(int position) =>
+                GetViewType(position) * 10 + (this.nodes[position].Children.Count > 0 ? (int)NodeType.Node : (int)NodeType.Leaf);
+            public abstract short GetViewType(int position);
 
             public void OnClick(ClickEventArgs args) => Click?.Invoke(this, args);
             public void OnLongClick(ClickEventArgs args) => LongClick?.Invoke(this, args);
@@ -415,20 +395,22 @@ namespace Xamarin.TreeView
                 Leaf = 1,
                 Node = 2,
             }
+
+            public abstract int GetLayout(NodeType nodeType, int viewType);
             
-            public sealed override ViewHolder OnCreateViewHolder(ViewGroup parent, NodeType nodeType)
+            public sealed override ViewHolder OnCreateViewHolder(ViewGroup parent, NodeType nodeType, int viewType)
             {
-                View itemView = LayoutInflater.From(parent.Context).Inflate(Layout, parent, false);
+                View itemView = LayoutInflater.From(parent.Context).Inflate(GetLayout(nodeType, viewType), parent, false);
 
                 switch (nodeType)
                 {
                     case NodeType.Leaf:
-                        NodeViewHolder vh = OnCreateViewHolder(parent, itemView);
+                        LeafViewHolder vh = OnCreateViewHolder(parent, itemView, viewType);
                         vh.SetClickListeners(OnClick, OnLongClick);
                         return vh;
                     case NodeType.Node:
                         TreeView tree = new TreeView(parent.Context, new TreeViewAttributes(Attributes)) { LayoutParameters = new LayoutParams(MatchParent, WrapContent) };
-                        TreeViewHolder tvh = OnCreateViewHolder(parent, tree, itemView);
+                        NodeViewHolder tvh = OnCreateViewHolder(parent, tree, itemView, viewType);
                         tvh.SetClickListeners(OnClick, OnLongClick, Click, LongClick);
                         return tvh;
                     default:
@@ -436,8 +418,8 @@ namespace Xamarin.TreeView
                 }
             }
 
-            public abstract TreeViewHolder OnCreateViewHolder(ViewGroup parent, TreeView tree, View itemView);
-            public abstract NodeViewHolder OnCreateViewHolder(ViewGroup parent, View itemView);
+            public abstract NodeViewHolder OnCreateViewHolder(ViewGroup parent, TreeView tree, View itemView, int viewType);
+            public abstract LeafViewHolder OnCreateViewHolder(ViewGroup parent, View itemView, int viewType);
 
             public sealed override void OnBindViewHolder(ViewHolder viewHolder, int position)
             {
@@ -453,9 +435,9 @@ namespace Xamarin.TreeView
                     (viewHolder.ItemView.LayoutParameters as MarginLayoutParams).TopMargin = Attributes.NodeMargin;
                 }
 
-                if (viewHolder is TreeViewHolder)
+                if (viewHolder is NodeViewHolder)
                 {
-                    TreeViewHolder vh = viewHolder as TreeViewHolder;
+                    NodeViewHolder vh = viewHolder as NodeViewHolder;
                     Adapter adapter = vh.Tree.GetAdapter();
                     if (adapter != null)
                     {
@@ -467,14 +449,14 @@ namespace Xamarin.TreeView
                     }
                     OnBindViewHolder(vh, position);
                 }
-                else if (viewHolder is NodeViewHolder)
+                else if (viewHolder is LeafViewHolder)
                 {
-                    OnBindViewHolder(viewHolder as NodeViewHolder, position);
+                    OnBindViewHolder(viewHolder as LeafViewHolder, position);
                 }
             }
 
-            public abstract void OnBindViewHolder(TreeViewHolder viewHolder, int position);
             public abstract void OnBindViewHolder(NodeViewHolder viewHolder, int position);
+            public abstract void OnBindViewHolder(LeafViewHolder viewHolder, int position);
         }
 
         new public abstract class ViewHolder : RecyclerView.ViewHolder
@@ -486,14 +468,14 @@ namespace Xamarin.TreeView
             internal protected ViewHolder(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
         }
 
-        public abstract class TreeViewHolder : ViewHolder
+        public abstract class NodeViewHolder : ViewHolder
         {
             public TreeView Tree { get; }
             public View Head { get; }
             public View Trace { get; }
             public LinearLayout TreeContainer { get; }
 
-            public TreeViewHolder(TreeView tree, View itemView) : base(WrapView(tree, itemView))
+            public NodeViewHolder(TreeView tree, View itemView) : base(WrapView(tree, itemView))
             {
                 this.Tree = tree;
                 this.Head = itemView;
@@ -514,8 +496,6 @@ namespace Xamarin.TreeView
                     this.Trace.SetBackgroundColor(GetColor(tree.TraceColor));
                     this.Trace.LayoutParameters.Width = tree.TraceWidth;
                 }
-
-                this.TreeContainer.Visibility = tree.Collapsed ? ViewStates.Gone : ViewStates.Visible;
             }
 
             private static View WrapView(TreeView tree, View itemView)
@@ -558,9 +538,9 @@ namespace Xamarin.TreeView
             }
         }
 
-        public abstract class NodeViewHolder : ViewHolder
+        public abstract class LeafViewHolder : ViewHolder
         {
-            public NodeViewHolder(View itemView) : base(itemView) { }
+            public LeafViewHolder(View itemView) : base(itemView) { }
 
             internal void SetClickListeners(Action<ClickEventArgs> OnClick, Action<ClickEventArgs> OnLongClick)
             {
@@ -578,9 +558,12 @@ namespace Xamarin.TreeView
             public int Position { get; set; }
         }
 
-
-
         #region Expand/Collapse Animation
+        protected const int DefaultDuration = 500;
+        protected const bool DefaultDynamic = false;
+        protected const bool Defaultfade = false;
+        protected const bool DefaultOptimized = false;
+
         public class ExpandCollapseAnimation : Animation
         {
             protected readonly View View;
@@ -588,24 +571,40 @@ namespace Xamarin.TreeView
             protected readonly int Height;
             protected readonly bool Fade;
 
-            public ExpandCollapseAnimation(View view, bool expand, IInterpolator interpolator = null, int duration = DefaultDuration, bool doFade = Defaultfade, bool optimized = DefaultOptimized)
+            public enum AnimationMode
             {
-                if (expand)
+                Expand = 1,
+                Collapse = 2,
+            }
+
+            /** 
+             *  View view - the View to expand/collapse
+             *  AnimationMode mode - Expand/Collapse
+             *  IInterpolator - animation interpolation
+             *  int duration - animation duration
+             *  bool dynamic - false = animation duration is constant, true = animation duration is (duration * this.Height / 100)
+             *  bool doFade - false = normal expand/collapse animation, true = also fadein/fadeout
+             *  bool optimized - false = normal expand/collapse animation, true = hide child view before animation to increase performance
+             */
+            public ExpandCollapseAnimation(View view, AnimationMode mode, IInterpolator interpolator = null, long duration = DefaultDuration, bool dynamic = DefaultDynamic, bool doFade = Defaultfade, bool optimized = DefaultOptimized)
+            {
+                this.Expand = mode == AnimationMode.Expand;
+                this.View = view;
+                this.Fade = doFade;
+
+                if (this.Expand)
                 {
                     //view.Measure(Adapter.MatchParent, Adapter.WrapContent);
                     view.Measure(MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified), MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified));
+                    this.Height = view.MeasuredHeight;
                     view.LayoutParameters.Height = 1;
                 }
-                this.Height = view.MeasuredHeight;
+                else this.Height = view.MeasuredHeight;
                 view.Visibility = ViewStates.Visible;
 
-                this.View = view;
-                this.Fade = doFade;
-                this.Expand = expand;
-
-                this.SetAnimationListener(new AnimationListener(view, expand, optimized));
+                this.SetAnimationListener(new AnimationListener(view, this.Expand, optimized));
                 this.Interpolator = interpolator ?? new AccelerateInterpolator();
-                this.Duration = duration;
+                this.Duration = dynamic ? (duration * this.Height / 100) : duration;
 
                 view.StartAnimation(this);
             }
@@ -672,10 +671,6 @@ namespace Xamarin.TreeView
                 return true;
             }
         }
-
-        protected const int DefaultDuration = 500;
-        protected const bool Defaultfade = false;
-        protected const bool DefaultOptimized = false;
         #endregion
     }
 #pragma warning restore CS0809 // Obsolete member overrides non-obsolete member
