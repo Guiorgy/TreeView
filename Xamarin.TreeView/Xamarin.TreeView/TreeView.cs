@@ -1,4 +1,5 @@
-﻿using Android.Content;
+﻿using Android.Animation;
+using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
 using Android.Runtime;
@@ -7,6 +8,7 @@ using Android.Util;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
+using Java.Lang;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -222,6 +224,7 @@ namespace Xamarin.TreeView
             this.Attributes.Level++;
         }
 
+        private const int DefaultTraceColor = unchecked((int)0xff00ff00);
         private void Initialize(Context context, IAttributeSet set)
         {
             if (IsInEditMode) return;
@@ -234,12 +237,12 @@ namespace Xamarin.TreeView
 
             if (set == null)
             {
-                if(Attributes == null)
+                if (Attributes == null)
                 {
                     Attributes = new TreeViewAttributes
                     {
                         TraceVisibility = ViewStates.Visible,
-                        TraceColor = unchecked((int)0xff00ff00),
+                        TraceColor = DefaultTraceColor,
                         TraceWidth = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 3, context.Resources.DisplayMetrics),
                         TraceMargin = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 6, context.Resources.DisplayMetrics),
                         NodeMargin = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 7, context.Resources.DisplayMetrics),
@@ -257,7 +260,7 @@ namespace Xamarin.TreeView
 
                 Attributes.TraceVisibility = attrs.GetInt(Resource.Styleable.TreeView_trace_visibility, 0)
                     == 0 ? ViewStates.Visible : ViewStates.Invisible;
-                Attributes.TraceColor = attrs.GetColor(Resource.Styleable.TreeView_trace_color, unchecked((int)0xffb3b3b3));
+                Attributes.TraceColor = attrs.GetColor(Resource.Styleable.TreeView_trace_color, DefaultTraceColor);
                 Attributes.TraceWidth = (int)attrs.GetDimension(Resource.Styleable.TreeView_trace_width,
                     (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 3, context.Resources.DisplayMetrics));
                 Attributes.TraceMargin = (int)attrs.GetDimension(Resource.Styleable.TreeView_trace_margin,
@@ -392,12 +395,13 @@ namespace Xamarin.TreeView
             public void OnClick(ClickEventArgs args) => Click?.Invoke(this, args);
             public void OnLongClick(ClickEventArgs args) => LongClick?.Invoke(this, args);
 
-            public enum NodeType {
+            public enum NodeType
+            {
                 None = 0,
                 Leaf = 1,
                 Node = 2,
             }
-            
+
             public sealed override ViewHolder OnCreateViewHolder(ViewGroup parent, NodeType nodeType, int viewType)
             {
                 View itemView = LayoutInflater.From(parent.Context).Inflate(GetLayout(nodeType, viewType), parent, false);
@@ -486,7 +490,7 @@ namespace Xamarin.TreeView
                 (this.ItemView.LayoutParameters as MarginLayoutParams).TopMargin = tree.NodeMargin;
                 (this.Tree.LayoutParameters as MarginLayoutParams).TopMargin = tree.HeadMargin;
 
-                if(tree.Level > tree.MaxLevel)
+                if (tree.Level > tree.MaxLevel)
                 {
                     this.Trace.Visibility = ViewStates.Gone;
                 }
@@ -559,9 +563,9 @@ namespace Xamarin.TreeView
         }
 
         #region Expand/Collapse Animation
-        protected const int DefaultDuration = 500;
+        protected const int DefaultDuration = 400;
         protected const bool DefaultDynamic = false;
-        protected const bool Defaultfade = false;
+        protected const bool DefaultFade = false;
         protected const bool DefaultOptimized = false;
 
         public class ExpandCollapseAnimation : Animation
@@ -580,17 +584,17 @@ namespace Xamarin.TreeView
             /** 
              *  View view - the View to expand/collapse
              *  AnimationMode mode - Expand/Collapse
-             *  IInterpolator - animation interpolation
-             *  int duration - animation duration
-             *  bool dynamic - false = animation duration is constant, true = animation duration is (duration * this.Height / 100)
-             *  bool doFade - false = normal expand/collapse animation, true = also fadein/fadeout
-             *  bool optimized - false = normal expand/collapse animation, true = hide child view before animation to increase performance
+             *  IInterpolator - animation interpolation (default: AccelerateDecelerateInterpolator)
+             *  int duration - animation duration (default: 400 miliseconds)
+             *  bool dynamic - false = animation duration is constant, true = animation duration is (duration * Height / 100) (default: false, recomended duration if true: 40 - 80)
+             *  bool doFade - false = normal expand/collapse animation, true = also fadein/fadeout (default: false)
+             *  bool optimized - false = normal expand/collapse animation, true = hide child view before animation to increase performance (default: false, in most cases just leave it)
              */
-            public ExpandCollapseAnimation(View view, AnimationMode mode, IInterpolator interpolator = null, long duration = DefaultDuration, bool dynamic = DefaultDynamic, bool doFade = Defaultfade, bool optimized = DefaultOptimized)
+            public ExpandCollapseAnimation(View view, AnimationMode mode, IInterpolator interpolator = null, long duration = DefaultDuration, bool dynamic = DefaultDynamic, bool doFade = DefaultFade, bool optimized = DefaultOptimized)
             {
                 this.Expand = mode == AnimationMode.Expand;
                 this.View = view;
-                this.Fade = doFade;
+                this.Fade = doFade && !optimized;
 
                 if (this.Expand)
                 {
@@ -600,7 +604,6 @@ namespace Xamarin.TreeView
                     view.LayoutParameters.Height = 1;
                 }
                 else this.Height = view.MeasuredHeight;
-                view.Visibility = ViewStates.Visible;
 
                 this.SetAnimationListener(new AnimationListener(view, this.Expand, optimized));
                 this.Interpolator = interpolator ?? new AccelerateInterpolator();
@@ -618,18 +621,18 @@ namespace Xamarin.TreeView
                 }
                 else
                 {
-                    if (Fade) t.Alpha = interpolatedTime == 1 ? 0 : 1 - interpolatedTime * 0.8f;
+                    if (Fade) t.Alpha = interpolatedTime == 1 ? 0 : 1f - interpolatedTime * 0.8f;
                     View.LayoutParameters.Height = interpolatedTime == 1 ? 0 : (int)(Height - Height * interpolatedTime);
                 }
                 View.Invalidate();
                 View.RequestLayout();
             }
 
-            private class AnimationListener : Java.Lang.Object, IAnimationListener
+            protected class AnimationListener : Java.Lang.Object, IAnimationListener
             {
-                private readonly View View;
-                private readonly bool Expand;
-                private readonly bool Optimized;
+                protected readonly View View;
+                protected readonly bool Expand;
+                protected readonly bool Optimized;
 
                 public AnimationListener(View view, bool expand, bool optimized)
                 {
@@ -648,7 +651,10 @@ namespace Xamarin.TreeView
                             view.GetChildAt(i).Visibility = ViewStates.Gone;
                         }
                     }
+                    View.Visibility = ViewStates.Visible;
                 }
+
+                public void OnAnimationRepeat(Animation animation) { }
 
                 public void OnAnimationEnd(Animation animation)
                 {
@@ -662,14 +668,123 @@ namespace Xamarin.TreeView
                     }
                     View.Visibility = Expand ? ViewStates.Visible : ViewStates.Gone;
                 }
-
-                public void OnAnimationRepeat(Animation animation) { }
             }
 
-            public override bool WillChangeBounds()
+            public override bool WillChangeBounds() => true;
+        }
+
+        protected class HeightAnimationListener : Java.Lang.Object, ValueAnimator.IAnimatorListener
+        {
+            protected readonly View View;
+            protected readonly bool Expand;
+            protected readonly bool Optimized;
+
+            public HeightAnimationListener(View view, bool expand, bool optimized)
             {
-                return true;
+                this.View = view;
+                this.Optimized = optimized;
+                this.Expand = expand;
             }
+
+            public void OnAnimationCancel(Animator animation) { }
+
+            public void OnAnimationStart(Animator animation)
+            {
+                if (Optimized && View is ViewGroup)
+                {
+                    ViewGroup view = View as ViewGroup;
+                    for (int i = view.ChildCount - 1; i >= 0; --i)
+                    {
+                        view.GetChildAt(i).Visibility = ViewStates.Gone;
+                    }
+                }
+                View.Visibility = ViewStates.Visible;
+            }
+
+            public void OnAnimationRepeat(Animator animation) { }
+
+            public void OnAnimationEnd(Animator animation)
+            {
+                if (Optimized && View is ViewGroup)
+                {
+                    ViewGroup view = View as ViewGroup;
+                    for (int i = view.ChildCount - 1; i >= 0; --i)
+                    {
+                        view.GetChildAt(i).Visibility = ViewStates.Visible;
+                    }
+                }
+                View.LayoutParameters.Height = Expand ? Adapter.WrapContent : 0;
+                View.Alpha = Expand ? 1f : 0;
+                View.Visibility = Expand ? ViewStates.Visible : ViewStates.Gone;
+            }
+        }
+
+        protected class HeightAnimationUpdateListener : Java.Lang.Object, ValueAnimator.IAnimatorUpdateListener
+        {
+            protected View View;
+            protected bool Expand;
+            protected bool Fade;
+
+            public HeightAnimationUpdateListener(View view, bool expand, bool fade)
+            {
+                this.View = view;
+                this.Expand = expand;
+                this.Fade = fade;
+            }
+
+            public void OnAnimationUpdate(ValueAnimator animation)
+            {
+                if (Fade)
+                {
+                    float fraction = animation.AnimatedFraction;
+                    if (Fade) View.Alpha = Expand ? (0.1f + fraction * 0.9f) : (1f - fraction * 0.9f);
+                }
+                Integer value = animation.AnimatedValue.JavaCast<Integer>();
+                View.LayoutParameters.Height = value.IntValue();
+                View.Invalidate();
+                View.RequestLayout();
+            }
+        }
+
+        /** 
+         *  View view - the View to expand/collapse
+         *  IInterpolator - animation interpolation (default: AccelerateDecelerateInterpolator)
+         *  int duration - animation duration (default: 400 miliseconds)
+         *  bool dynamic - false = animation duration is constant, true = animation duration is (duration * Height / 100) (default: false, recomended duration if true: 40 - 80)
+         *  bool doFade - false = normal expand/collapse animation, true = also fadein/fadeout (default: false)
+         *  bool optimized - false = normal expand/collapse animation, true = hide child view before animation to increase performance (default: false, in most cases just leave it)
+         */
+        public static void ExpandView(View view, IInterpolator interpolator = null, long duration = DefaultDuration, bool dynamic = DefaultDynamic, bool doFade = DefaultFade, bool optimized = DefaultOptimized)
+        {
+            //view.Measure(Adapter.MatchParent, Adapter.WrapContent);
+            view.Measure(MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified), MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified));
+            int height = view.MeasuredHeight;
+            view.LayoutParameters.Height = 1;
+            
+            ValueAnimator expandAnimator = ValueAnimator.OfInt(1, height).SetDuration(dynamic ? (duration * height / 100) : duration) as ValueAnimator;
+
+            expandAnimator.AddUpdateListener(new HeightAnimationUpdateListener(view, true, doFade && !optimized));
+            expandAnimator.AddListener(new HeightAnimationListener(view, true, optimized));
+
+            AnimatorSet set = new AnimatorSet();
+            set.Play(expandAnimator);
+            set.SetInterpolator(interpolator ?? new AccelerateDecelerateInterpolator());
+            set.Start();
+        }
+
+        public static void CollapseView(View view, IInterpolator interpolator = null, long duration = DefaultDuration, bool dynamic = DefaultDynamic, bool doFade = DefaultFade, bool optimized = DefaultOptimized)
+        {
+            int height = view.MeasuredHeight;
+
+            ValueAnimator collapseAnimator = ValueAnimator.OfInt(height, 0).SetDuration(dynamic ? (duration * height / 100) : duration) as ValueAnimator;
+
+            collapseAnimator.AddUpdateListener(new HeightAnimationUpdateListener(view, false, doFade && !optimized));
+            collapseAnimator.AddListener(new HeightAnimationListener(view, false, optimized));
+
+            AnimatorSet set = new AnimatorSet();
+            set.Play(collapseAnimator);
+            set.SetInterpolator(interpolator ?? new AccelerateDecelerateInterpolator());
+            set.Start();
         }
         #endregion
     }

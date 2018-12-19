@@ -62,7 +62,7 @@ namespace DemoApp
 
         private class NodeViewHolder : TreeView.NodeViewHolder
         {
-            protected ExpandCollapseAnimation ExpandCollapseAnimations;
+            //protected ExpandCollapseAnimation ExpandCollapseAnimations;
             public bool Collapsed { get; set; }
             public TextView TextView { get; }
 
@@ -72,9 +72,11 @@ namespace DemoApp
 
                 this.Head.Click += (object sender, System.EventArgs e) =>
                 {
-                    if (ExpandCollapseAnimations != null && !ExpandCollapseAnimations.HasEnded) return;
+                    /*if (ExpandCollapseAnimations != null && !ExpandCollapseAnimations.HasEnded) return;
                     if (Collapsed) ExpandCollapseAnimations = new ExpandCollapseAnimation(this.TreeContainer, ExpandCollapseAnimation.AnimationMode.Expand, doFade: true, duration: 60, dynamic: true);
-                    else ExpandCollapseAnimations = new ExpandCollapseAnimation(this.TreeContainer, ExpandCollapseAnimation.AnimationMode.Collapse, doFade: true, duration: 60, dynamic: true);
+                    else ExpandCollapseAnimations = new ExpandCollapseAnimation(this.TreeContainer, ExpandCollapseAnimation.AnimationMode.Collapse, doFade: true, duration: 60, dynamic: true);*/
+                    if (Collapsed) ExpandView(this.TreeContainer, duration: 60, dynamic: true, doFade: true);
+                    else CollapseView(this.TreeContainer, duration: 60, dynamic: true, doFade: true);
                     Collapsed = !Collapsed;
                 };
             }
