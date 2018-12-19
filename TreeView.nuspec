@@ -1,0 +1,23 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+	<metadata>
+		<id>Xamarin.TreeView</id>
+		<version>1.0.0</version>
+		<authors>Guiorgy</authors>
+		<owners>Guiorgy</owners>
+		<projectUrl>https://github.com/Guiorgy/TreeView</projectUrl>
+		<license type="expression">none</license>
+		<iconUrl>https://github.com/Guiorgy/TreeView/hierarchy-icon.png</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<releaseNotes>Release 1.0.0</releaseNotes>
+		<description>icon from https://icons8.com/icon/103181/tree-structure</description>
+		<tags>xamarin treeview tree listview list</tags>
+		<dependencies>
+			<dependency id="Xamarin.Android.Support.v7.RecyclerView" version="28.0.0" />
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="Xamarin.TreeView\Xamarin.TreeView\bin\Debug\Xamarin.TreeView.dll" target="lib/monoandroid403"/>
+		<file src="Xamarin.TreeView\Xamarin.TreeView\bin\Debug\Xamarin.TreeView.dll" target="lib/netstandard1.4"/>
+	</files>
+</package>
