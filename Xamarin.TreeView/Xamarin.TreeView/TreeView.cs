@@ -737,7 +737,7 @@ namespace Xamarin.TreeView
                 if (Fade)
                 {
                     float fraction = animation.AnimatedFraction;
-                    if (Fade) View.Alpha = Expand ? (0.1f + fraction * 0.9f) : (1f - fraction * 0.9f);
+                    if (Fade) View.Alpha = Expand ? (0.2f + fraction * 0.8f) : (1f - fraction * 0.8f);
                 }
                 Integer value = animation.AnimatedValue.JavaCast<Integer>();
                 View.LayoutParameters.Height = value.IntValue();
