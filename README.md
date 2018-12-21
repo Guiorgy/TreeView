@@ -3,18 +3,22 @@
 ## Download
 [![NuGet](https://img.shields.io/badge/Android%20Arsenal-android--file--chooser-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6982)
 
+|  |  |
+| --------------- | ----------------------------------------------- |
 | Package Manager | Install-Package Xamarin.TreeView -Version 1.0.0 |
 | .NET CLI | dotnet add package Xamarin.TreeView --version 1.0.0 |
 
 ### ScreenShots
 
-<img src="Captures/demo.gif" width="720"/>
+<img src="Captures/demo.gif" width="360"/>
 
 ## Usage
 
 * xml
 ```xml
 <treeview.TreeView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:layout_margin="5dp"
