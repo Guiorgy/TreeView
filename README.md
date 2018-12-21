@@ -10,7 +10,7 @@
 
 ### ScreenShots
 
-<img src="https://github.com/Guiorgy/TreeView/blob/master/hierarchy-icon.png?raw=true" width="360"/>
+<img src="https://github.com/Guiorgy/TreeView/blob/master/Captures/demo.gif?raw=true" width="360"/>
 
 ## Usage
 
