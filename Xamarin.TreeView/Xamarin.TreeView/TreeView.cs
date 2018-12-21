@@ -73,12 +73,6 @@ namespace Xamarin.TreeView
 
             public abstract TreeView.ViewHolder OnCreateViewHolder(ViewGroup parent, TreeView.Adapter.NodeType nodeType, int viewType);
 
-            [EditorBrowsable(EditorBrowsableState.Never)]
-            public sealed override void OnBindViewHolder(ViewHolder holder, int position, IList<Java.Lang.Object> payloads)
-            {
-                base.OnBindViewHolder(holder, position, payloads);
-            }
-
             public sealed override void OnBindViewHolder(ViewHolder viewHolder, int position)
             {
                 this.OnBindViewHolder(viewHolder as TreeView.ViewHolder, position);
@@ -520,8 +514,8 @@ namespace Xamarin.TreeView
 
             internal void SetClickListeners(Action<ClickEventArgs> OnClick, Action<ClickEventArgs> OnLongClick, EventHandler<ClickEventArgs> Click, EventHandler<ClickEventArgs> LongClick)
             {
-                this.Head.Click += (sender, e) => OnClick(new ClickEventArgs { Node = Node, View = this.Head, NodeType = Adapter.NodeType.Node, Level = Level, Position = AdapterPosition });
-                this.Head.LongClick += (sender, e) => OnLongClick(new ClickEventArgs { Node = Node, View = this.Head, NodeType = Adapter.NodeType.Node, Level = Level, Position = AdapterPosition });
+                this.Head.Click += (sender, e) => OnClick(new ClickEventArgs { Node = Node, View = this.Head, NodeType = Adapter.NodeType.Node, Level = Level, Position = Position });
+                this.Head.LongClick += (sender, e) => OnLongClick(new ClickEventArgs { Node = Node, View = this.Head, NodeType = Adapter.NodeType.Node, Level = Level, Position = Position });
                 this.Tree.SetClickListeners(Click, LongClick);
             }
 
@@ -548,8 +542,8 @@ namespace Xamarin.TreeView
 
             internal void SetClickListeners(Action<ClickEventArgs> OnClick, Action<ClickEventArgs> OnLongClick)
             {
-                this.ItemView.Click += (sender, e) => OnClick(new ClickEventArgs { Node = Node, View = this.ItemView, NodeType = Adapter.NodeType.Leaf, Level = Level, Position = AdapterPosition });
-                this.ItemView.LongClick += (sender, e) => OnLongClick(new ClickEventArgs { Node = Node, View = this.ItemView, NodeType = Adapter.NodeType.Leaf, Level = Level, Position = AdapterPosition });
+                this.ItemView.Click += (sender, e) => OnClick(new ClickEventArgs { Node = Node, View = this.ItemView, NodeType = Adapter.NodeType.Leaf, Level = Level, Position = Position });
+                this.ItemView.LongClick += (sender, e) => OnLongClick(new ClickEventArgs { Node = Node, View = this.ItemView, NodeType = Adapter.NodeType.Leaf, Level = Level, Position = Position });
             }
         }
 

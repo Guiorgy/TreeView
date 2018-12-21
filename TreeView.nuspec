@@ -7,17 +7,16 @@
 		<owners>Guiorgy</owners>
 		<projectUrl>https://github.com/Guiorgy/TreeView</projectUrl>
 		<license type="expression">none</license>
-		<iconUrl>https://github.com/Guiorgy/TreeView/hierarchy-icon.png</iconUrl>
+		<iconUrl>https://github.com/Guiorgy/TreeView/blob/master/hierarchy-icon.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<releaseNotes>Release 1.0.0</releaseNotes>
 		<description>icon from https://icons8.com/icon/103181/tree-structure</description>
-		<tags>xamarin treeview tree listview list</tags>
+		<tags>xamarin treeview tree multileveledlistview multileveledlist</tags>
 		<dependencies>
-			<dependency id="Xamarin.Android.Support.v7.RecyclerView" version="28.0.0" />
+			<dependency id="Xamarin.Android.Support.v7.RecyclerView" version="21.0.3" />
 		</dependencies>
 	</metadata>
 	<files>
-		<file src="Xamarin.TreeView\Xamarin.TreeView\bin\Debug\Xamarin.TreeView.dll" target="lib/monoandroid403"/>
-		<file src="Xamarin.TreeView\Xamarin.TreeView\bin\Debug\Xamarin.TreeView.dll" target="lib/netstandard1.4"/>
+		<file src="Xamarin.TreeView\Xamarin.TreeView\bin\Release\*.dll" target="lib/monoandroid500"/>
 	</files>
 </package>

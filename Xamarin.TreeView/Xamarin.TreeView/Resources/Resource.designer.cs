@@ -27,116 +27,26 @@ namespace Xamarin.TreeView
 		public partial class Attribute
 		{
 			
-			// aapt resource value: 0x7f010012
-			public static int alpha = 2130771986;
-			
-			// aapt resource value: 0x7f010009
-			public static int coordinatorLayoutStyle = 2130771977;
-			
-			// aapt resource value: 0x7f010004
-			public static int fastScrollEnabled = 2130771972;
-			
-			// aapt resource value: 0x7f010007
-			public static int fastScrollHorizontalThumbDrawable = 2130771975;
-			
-			// aapt resource value: 0x7f010008
-			public static int fastScrollHorizontalTrackDrawable = 2130771976;
-			
 			// aapt resource value: 0x7f010005
-			public static int fastScrollVerticalThumbDrawable = 2130771973;
+			public static int head_margin = 2130771973;
 			
 			// aapt resource value: 0x7f010006
-			public static int fastScrollVerticalTrackDrawable = 2130771974;
+			public static int maxLevel = 2130771974;
 			
-			// aapt resource value: 0x7f01001a
-			public static int font = 2130771994;
-			
-			// aapt resource value: 0x7f010013
-			public static int fontProviderAuthority = 2130771987;
-			
-			// aapt resource value: 0x7f010016
-			public static int fontProviderCerts = 2130771990;
-			
-			// aapt resource value: 0x7f010017
-			public static int fontProviderFetchStrategy = 2130771991;
-			
-			// aapt resource value: 0x7f010018
-			public static int fontProviderFetchTimeout = 2130771992;
-			
-			// aapt resource value: 0x7f010014
-			public static int fontProviderPackage = 2130771988;
-			
-			// aapt resource value: 0x7f010015
-			public static int fontProviderQuery = 2130771989;
-			
-			// aapt resource value: 0x7f010019
-			public static int fontStyle = 2130771993;
-			
-			// aapt resource value: 0x7f01001c
-			public static int fontVariationSettings = 2130771996;
-			
-			// aapt resource value: 0x7f01001b
-			public static int fontWeight = 2130771995;
-			
-			// aapt resource value: 0x7f010023
-			public static int head_margin = 2130772003;
-			
-			// aapt resource value: 0x7f01000a
-			public static int keylines = 2130771978;
-			
-			// aapt resource value: 0x7f010000
-			public static int layoutManager = 2130771968;
-			
-			// aapt resource value: 0x7f01000d
-			public static int layout_anchor = 2130771981;
-			
-			// aapt resource value: 0x7f01000f
-			public static int layout_anchorGravity = 2130771983;
-			
-			// aapt resource value: 0x7f01000c
-			public static int layout_behavior = 2130771980;
-			
-			// aapt resource value: 0x7f010011
-			public static int layout_dodgeInsetEdges = 2130771985;
-			
-			// aapt resource value: 0x7f010010
-			public static int layout_insetEdge = 2130771984;
-			
-			// aapt resource value: 0x7f01000e
-			public static int layout_keyline = 2130771982;
-			
-			// aapt resource value: 0x7f010024
-			public static int maxLevel = 2130772004;
-			
-			// aapt resource value: 0x7f010022
-			public static int node_margin = 2130772002;
-			
-			// aapt resource value: 0x7f010002
-			public static int reverseLayout = 2130771970;
+			// aapt resource value: 0x7f010004
+			public static int node_margin = 2130771972;
 			
 			// aapt resource value: 0x7f010001
-			public static int spanCount = 2130771969;
+			public static int trace_color = 2130771969;
 			
 			// aapt resource value: 0x7f010003
-			public static int stackFromEnd = 2130771971;
+			public static int trace_margin = 2130771971;
 			
-			// aapt resource value: 0x7f01000b
-			public static int statusBarBackground = 2130771979;
+			// aapt resource value: 0x7f010000
+			public static int trace_visibility = 2130771968;
 			
-			// aapt resource value: 0x7f01001f
-			public static int trace_color = 2130771999;
-			
-			// aapt resource value: 0x7f010021
-			public static int trace_margin = 2130772001;
-			
-			// aapt resource value: 0x7f01001e
-			public static int trace_visibility = 2130771998;
-			
-			// aapt resource value: 0x7f010020
-			public static int trace_width = 2130772000;
-			
-			// aapt resource value: 0x7f01001d
-			public static int ttcIndex = 2130771997;
+			// aapt resource value: 0x7f010002
+			public static int trace_width = 2130771970;
 			
 			static Attribute()
 			{
@@ -148,329 +58,23 @@ namespace Xamarin.TreeView
 			}
 		}
 		
-		public partial class Color
-		{
-			
-			// aapt resource value: 0x7f080000
-			public static int notification_action_color_filter = 2131230720;
-			
-			// aapt resource value: 0x7f080001
-			public static int notification_icon_bg_color = 2131230721;
-			
-			// aapt resource value: 0x7f080002
-			public static int ripple_material_light = 2131230722;
-			
-			// aapt resource value: 0x7f080003
-			public static int secondary_text_default_material_light = 2131230723;
-			
-			static Color()
-			{
-				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
-			}
-			
-			private Color()
-			{
-			}
-		}
-		
-		public partial class Dimension
-		{
-			
-			// aapt resource value: 0x7f04000a
-			public static int compat_button_inset_horizontal_material = 2130968586;
-			
-			// aapt resource value: 0x7f04000b
-			public static int compat_button_inset_vertical_material = 2130968587;
-			
-			// aapt resource value: 0x7f04000c
-			public static int compat_button_padding_horizontal_material = 2130968588;
-			
-			// aapt resource value: 0x7f04000d
-			public static int compat_button_padding_vertical_material = 2130968589;
-			
-			// aapt resource value: 0x7f04000e
-			public static int compat_control_corner_material = 2130968590;
-			
-			// aapt resource value: 0x7f04000f
-			public static int compat_notification_large_icon_max_height = 2130968591;
-			
-			// aapt resource value: 0x7f040010
-			public static int compat_notification_large_icon_max_width = 2130968592;
-			
-			// aapt resource value: 0x7f040000
-			public static int fastscroll_default_thickness = 2130968576;
-			
-			// aapt resource value: 0x7f040001
-			public static int fastscroll_margin = 2130968577;
-			
-			// aapt resource value: 0x7f040002
-			public static int fastscroll_minimum_range = 2130968578;
-			
-			// aapt resource value: 0x7f040003
-			public static int item_touch_helper_max_drag_scroll_per_frame = 2130968579;
-			
-			// aapt resource value: 0x7f040004
-			public static int item_touch_helper_swipe_escape_max_velocity = 2130968580;
-			
-			// aapt resource value: 0x7f040005
-			public static int item_touch_helper_swipe_escape_velocity = 2130968581;
-			
-			// aapt resource value: 0x7f040011
-			public static int notification_action_icon_size = 2130968593;
-			
-			// aapt resource value: 0x7f040012
-			public static int notification_action_text_size = 2130968594;
-			
-			// aapt resource value: 0x7f040013
-			public static int notification_big_circle_margin = 2130968595;
-			
-			// aapt resource value: 0x7f040007
-			public static int notification_content_margin_start = 2130968583;
-			
-			// aapt resource value: 0x7f040014
-			public static int notification_large_icon_height = 2130968596;
-			
-			// aapt resource value: 0x7f040015
-			public static int notification_large_icon_width = 2130968597;
-			
-			// aapt resource value: 0x7f040008
-			public static int notification_main_column_padding_top = 2130968584;
-			
-			// aapt resource value: 0x7f040009
-			public static int notification_media_narrow_margin = 2130968585;
-			
-			// aapt resource value: 0x7f040016
-			public static int notification_right_icon_size = 2130968598;
-			
-			// aapt resource value: 0x7f040006
-			public static int notification_right_side_padding_top = 2130968582;
-			
-			// aapt resource value: 0x7f040017
-			public static int notification_small_icon_background_padding = 2130968599;
-			
-			// aapt resource value: 0x7f040018
-			public static int notification_small_icon_size_as_large = 2130968600;
-			
-			// aapt resource value: 0x7f040019
-			public static int notification_subtext_size = 2130968601;
-			
-			// aapt resource value: 0x7f04001a
-			public static int notification_top_pad = 2130968602;
-			
-			// aapt resource value: 0x7f04001b
-			public static int notification_top_pad_large_text = 2130968603;
-			
-			static Dimension()
-			{
-				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
-			}
-			
-			private Dimension()
-			{
-			}
-		}
-		
-		public partial class Drawable
-		{
-			
-			// aapt resource value: 0x7f020000
-			public static int notification_action_background = 2130837504;
-			
-			// aapt resource value: 0x7f020001
-			public static int notification_bg = 2130837505;
-			
-			// aapt resource value: 0x7f020002
-			public static int notification_bg_low = 2130837506;
-			
-			// aapt resource value: 0x7f020003
-			public static int notification_bg_low_normal = 2130837507;
-			
-			// aapt resource value: 0x7f020004
-			public static int notification_bg_low_pressed = 2130837508;
-			
-			// aapt resource value: 0x7f020005
-			public static int notification_bg_normal = 2130837509;
-			
-			// aapt resource value: 0x7f020006
-			public static int notification_bg_normal_pressed = 2130837510;
-			
-			// aapt resource value: 0x7f020007
-			public static int notification_icon_background = 2130837511;
-			
-			// aapt resource value: 0x7f02000a
-			public static int notification_template_icon_bg = 2130837514;
-			
-			// aapt resource value: 0x7f02000b
-			public static int notification_template_icon_low_bg = 2130837515;
-			
-			// aapt resource value: 0x7f020008
-			public static int notification_tile_bg = 2130837512;
-			
-			// aapt resource value: 0x7f020009
-			public static int notify_panel_notification_icon_bg = 2130837513;
-			
-			static Drawable()
-			{
-				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
-			}
-			
-			private Drawable()
-			{
-			}
-		}
-		
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050020
-			public static int action_container = 2131034144;
+			// aapt resource value: 0x7f040000
+			public static int invisible = 2130968576;
 			
-			// aapt resource value: 0x7f05002c
-			public static int action_divider = 2131034156;
+			// aapt resource value: 0x7f040003
+			public static int treeview_listitem_wrapper_container = 2130968579;
 			
-			// aapt resource value: 0x7f050021
-			public static int action_image = 2131034145;
+			// aapt resource value: 0x7f040002
+			public static int treeview_listitem_wrapper_root = 2130968578;
 			
-			// aapt resource value: 0x7f050022
-			public static int action_text = 2131034146;
+			// aapt resource value: 0x7f040004
+			public static int treeview_listitem_wrapper_trace = 2130968580;
 			
-			// aapt resource value: 0x7f05002d
-			public static int actions = 2131034157;
-			
-			// aapt resource value: 0x7f050018
-			public static int all = 2131034136;
-			
-			// aapt resource value: 0x7f050019
-			public static int async = 2131034137;
-			
-			// aapt resource value: 0x7f05001a
-			public static int blocking = 2131034138;
-			
-			// aapt resource value: 0x7f050009
-			public static int bottom = 2131034121;
-			
-			// aapt resource value: 0x7f05000a
-			public static int center = 2131034122;
-			
-			// aapt resource value: 0x7f05000b
-			public static int center_horizontal = 2131034123;
-			
-			// aapt resource value: 0x7f05000c
-			public static int center_vertical = 2131034124;
-			
-			// aapt resource value: 0x7f05002b
-			public static int chronometer = 2131034155;
-			
-			// aapt resource value: 0x7f05000d
-			public static int clip_horizontal = 2131034125;
-			
-			// aapt resource value: 0x7f05000e
-			public static int clip_vertical = 2131034126;
-			
-			// aapt resource value: 0x7f05000f
-			public static int end = 2131034127;
-			
-			// aapt resource value: 0x7f050010
-			public static int fill = 2131034128;
-			
-			// aapt resource value: 0x7f050011
-			public static int fill_horizontal = 2131034129;
-			
-			// aapt resource value: 0x7f050012
-			public static int fill_vertical = 2131034130;
-			
-			// aapt resource value: 0x7f05001b
-			public static int forever = 2131034139;
-			
-			// aapt resource value: 0x7f050024
-			public static int icon = 2131034148;
-			
-			// aapt resource value: 0x7f05002e
-			public static int icon_group = 2131034158;
-			
-			// aapt resource value: 0x7f050027
-			public static int info = 2131034151;
-			
-			// aapt resource value: 0x7f05001e
-			public static int invisible = 2131034142;
-			
-			// aapt resource value: 0x7f05001c
-			public static int italic = 2131034140;
-			
-			// aapt resource value: 0x7f050000
-			public static int item_touch_helper_previous_elevation = 2131034112;
-			
-			// aapt resource value: 0x7f050013
-			public static int left = 2131034131;
-			
-			// aapt resource value: 0x7f050001
-			public static int line1 = 2131034113;
-			
-			// aapt resource value: 0x7f050002
-			public static int line3 = 2131034114;
-			
-			// aapt resource value: 0x7f050017
-			public static int none = 2131034135;
-			
-			// aapt resource value: 0x7f05001d
-			public static int normal = 2131034141;
-			
-			// aapt resource value: 0x7f050029
-			public static int notification_background = 2131034153;
-			
-			// aapt resource value: 0x7f050025
-			public static int notification_main_column = 2131034149;
-			
-			// aapt resource value: 0x7f050023
-			public static int notification_main_column_container = 2131034147;
-			
-			// aapt resource value: 0x7f050014
-			public static int right = 2131034132;
-			
-			// aapt resource value: 0x7f050028
-			public static int right_icon = 2131034152;
-			
-			// aapt resource value: 0x7f050026
-			public static int right_side = 2131034150;
-			
-			// aapt resource value: 0x7f050015
-			public static int start = 2131034133;
-			
-			// aapt resource value: 0x7f050003
-			public static int tag_transition_group = 2131034115;
-			
-			// aapt resource value: 0x7f050004
-			public static int tag_unhandled_key_event_manager = 2131034116;
-			
-			// aapt resource value: 0x7f050005
-			public static int tag_unhandled_key_listeners = 2131034117;
-			
-			// aapt resource value: 0x7f050006
-			public static int text = 2131034118;
-			
-			// aapt resource value: 0x7f050007
-			public static int text2 = 2131034119;
-			
-			// aapt resource value: 0x7f05002a
-			public static int time = 2131034154;
-			
-			// aapt resource value: 0x7f050008
-			public static int title = 2131034120;
-			
-			// aapt resource value: 0x7f050016
-			public static int top = 2131034134;
-			
-			// aapt resource value: 0x7f050030
-			public static int treeview_listitem_wrapper_container = 2131034160;
-			
-			// aapt resource value: 0x7f05002f
-			public static int treeview_listitem_wrapper_root = 2131034159;
-			
-			// aapt resource value: 0x7f050031
-			public static int treeview_listitem_wrapper_trace = 2131034161;
-			
-			// aapt resource value: 0x7f05001f
-			public static int visible = 2131034143;
+			// aapt resource value: 0x7f040001
+			public static int visible = 2130968577;
 			
 			static Id()
 			{
@@ -482,45 +86,11 @@ namespace Xamarin.TreeView
 			}
 		}
 		
-		public partial class Integer
-		{
-			
-			// aapt resource value: 0x7f090000
-			public static int status_bar_notification_info_maxnum = 2131296256;
-			
-			static Integer()
-			{
-				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
-			}
-			
-			private Integer()
-			{
-			}
-		}
-		
 		public partial class Layout
 		{
 			
-			// aapt resource value: 0x7f030000
-			public static int notification_action = 2130903040;
-			
-			// aapt resource value: 0x7f030001
-			public static int notification_action_tombstone = 2130903041;
-			
-			// aapt resource value: 0x7f030002
-			public static int notification_template_custom_big = 2130903042;
-			
-			// aapt resource value: 0x7f030003
-			public static int notification_template_icon_group = 2130903043;
-			
-			// aapt resource value: 0x7f030004
-			public static int notification_template_part_chronometer = 2130903044;
-			
-			// aapt resource value: 0x7f030005
-			public static int notification_template_part_time = 2130903045;
-			
-			// aapt resource value: 0x7f030006
-			public static int treeview_listitem_wrapper = 2130903046;
+			// aapt resource value: 0x7f020000
+			public static int treeview_listitem_wrapper = 2130837504;
 			
 			static Layout()
 			{
@@ -535,11 +105,8 @@ namespace Xamarin.TreeView
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f070001
-			public static int app_name = 2131165185;
-			
-			// aapt resource value: 0x7f070000
-			public static int status_bar_notification_info_overflow = 2131165184;
+			// aapt resource value: 0x7f030000
+			public static int app_name = 2130903040;
 			
 			static String()
 			{
@@ -551,282 +118,17 @@ namespace Xamarin.TreeView
 			}
 		}
 		
-		public partial class Style
-		{
-			
-			// aapt resource value: 0x7f060001
-			public static int TextAppearance_Compat_Notification = 2131099649;
-			
-			// aapt resource value: 0x7f060002
-			public static int TextAppearance_Compat_Notification_Info = 2131099650;
-			
-			// aapt resource value: 0x7f060007
-			public static int TextAppearance_Compat_Notification_Line2 = 2131099655;
-			
-			// aapt resource value: 0x7f060003
-			public static int TextAppearance_Compat_Notification_Time = 2131099651;
-			
-			// aapt resource value: 0x7f060004
-			public static int TextAppearance_Compat_Notification_Title = 2131099652;
-			
-			// aapt resource value: 0x7f060005
-			public static int Widget_Compat_NotificationActionContainer = 2131099653;
-			
-			// aapt resource value: 0x7f060006
-			public static int Widget_Compat_NotificationActionText = 2131099654;
-			
-			// aapt resource value: 0x7f060000
-			public static int Widget_Support_CoordinatorLayout = 2131099648;
-			
-			static Style()
-			{
-				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
-			}
-			
-			private Style()
-			{
-			}
-		}
-		
 		public partial class Styleable
 		{
 			
-			public static int[] ColorStateListItem = new int[] {
-					16843173,
-					16843551,
-					2130771986};
-			
-			// aapt resource value: 2
-			public static int ColorStateListItem_alpha = 2;
-			
-			// aapt resource value: 1
-			public static int ColorStateListItem_android_alpha = 1;
-			
-			// aapt resource value: 0
-			public static int ColorStateListItem_android_color = 0;
-			
-			public static int[] CoordinatorLayout = new int[] {
-					2130771978,
-					2130771979};
-			
-			// aapt resource value: 0
-			public static int CoordinatorLayout_keylines = 0;
-			
-			// aapt resource value: 1
-			public static int CoordinatorLayout_statusBarBackground = 1;
-			
-			public static int[] CoordinatorLayout_Layout = new int[] {
-					16842931,
-					2130771980,
-					2130771981,
-					2130771982,
-					2130771983,
-					2130771984,
-					2130771985};
-			
-			// aapt resource value: 0
-			public static int CoordinatorLayout_Layout_android_layout_gravity = 0;
-			
-			// aapt resource value: 2
-			public static int CoordinatorLayout_Layout_layout_anchor = 2;
-			
-			// aapt resource value: 4
-			public static int CoordinatorLayout_Layout_layout_anchorGravity = 4;
-			
-			// aapt resource value: 1
-			public static int CoordinatorLayout_Layout_layout_behavior = 1;
-			
-			// aapt resource value: 6
-			public static int CoordinatorLayout_Layout_layout_dodgeInsetEdges = 6;
-			
-			// aapt resource value: 5
-			public static int CoordinatorLayout_Layout_layout_insetEdge = 5;
-			
-			// aapt resource value: 3
-			public static int CoordinatorLayout_Layout_layout_keyline = 3;
-			
-			public static int[] FontFamily = new int[] {
-					2130771987,
-					2130771988,
-					2130771989,
-					2130771990,
-					2130771991,
-					2130771992};
-			
-			// aapt resource value: 0
-			public static int FontFamily_fontProviderAuthority = 0;
-			
-			// aapt resource value: 3
-			public static int FontFamily_fontProviderCerts = 3;
-			
-			// aapt resource value: 4
-			public static int FontFamily_fontProviderFetchStrategy = 4;
-			
-			// aapt resource value: 5
-			public static int FontFamily_fontProviderFetchTimeout = 5;
-			
-			// aapt resource value: 1
-			public static int FontFamily_fontProviderPackage = 1;
-			
-			// aapt resource value: 2
-			public static int FontFamily_fontProviderQuery = 2;
-			
-			public static int[] FontFamilyFont = new int[] {
-					16844082,
-					16844083,
-					16844095,
-					16844143,
-					16844144,
-					2130771993,
-					2130771994,
-					2130771995,
-					2130771996,
-					2130771997};
-			
-			// aapt resource value: 0
-			public static int FontFamilyFont_android_font = 0;
-			
-			// aapt resource value: 2
-			public static int FontFamilyFont_android_fontStyle = 2;
-			
-			// aapt resource value: 4
-			public static int FontFamilyFont_android_fontVariationSettings = 4;
-			
-			// aapt resource value: 1
-			public static int FontFamilyFont_android_fontWeight = 1;
-			
-			// aapt resource value: 3
-			public static int FontFamilyFont_android_ttcIndex = 3;
-			
-			// aapt resource value: 6
-			public static int FontFamilyFont_font = 6;
-			
-			// aapt resource value: 5
-			public static int FontFamilyFont_fontStyle = 5;
-			
-			// aapt resource value: 8
-			public static int FontFamilyFont_fontVariationSettings = 8;
-			
-			// aapt resource value: 7
-			public static int FontFamilyFont_fontWeight = 7;
-			
-			// aapt resource value: 9
-			public static int FontFamilyFont_ttcIndex = 9;
-			
-			public static int[] GradientColor = new int[] {
-					16843165,
-					16843166,
-					16843169,
-					16843170,
-					16843171,
-					16843172,
-					16843265,
-					16843275,
-					16844048,
-					16844049,
-					16844050,
-					16844051};
-			
-			// aapt resource value: 7
-			public static int GradientColor_android_centerColor = 7;
-			
-			// aapt resource value: 3
-			public static int GradientColor_android_centerX = 3;
-			
-			// aapt resource value: 4
-			public static int GradientColor_android_centerY = 4;
-			
-			// aapt resource value: 1
-			public static int GradientColor_android_endColor = 1;
-			
-			// aapt resource value: 10
-			public static int GradientColor_android_endX = 10;
-			
-			// aapt resource value: 11
-			public static int GradientColor_android_endY = 11;
-			
-			// aapt resource value: 5
-			public static int GradientColor_android_gradientRadius = 5;
-			
-			// aapt resource value: 0
-			public static int GradientColor_android_startColor = 0;
-			
-			// aapt resource value: 8
-			public static int GradientColor_android_startX = 8;
-			
-			// aapt resource value: 9
-			public static int GradientColor_android_startY = 9;
-			
-			// aapt resource value: 6
-			public static int GradientColor_android_tileMode = 6;
-			
-			// aapt resource value: 2
-			public static int GradientColor_android_type = 2;
-			
-			public static int[] GradientColorItem = new int[] {
-					16843173,
-					16844052};
-			
-			// aapt resource value: 0
-			public static int GradientColorItem_android_color = 0;
-			
-			// aapt resource value: 1
-			public static int GradientColorItem_android_offset = 1;
-			
-			public static int[] RecyclerView = new int[] {
-					16842948,
-					16842993,
+			public static int[] TreeView = new int[] {
 					2130771968,
 					2130771969,
 					2130771970,
 					2130771971,
 					2130771972,
 					2130771973,
-					2130771974,
-					2130771975,
-					2130771976};
-			
-			// aapt resource value: 1
-			public static int RecyclerView_android_descendantFocusability = 1;
-			
-			// aapt resource value: 0
-			public static int RecyclerView_android_orientation = 0;
-			
-			// aapt resource value: 6
-			public static int RecyclerView_fastScrollEnabled = 6;
-			
-			// aapt resource value: 9
-			public static int RecyclerView_fastScrollHorizontalThumbDrawable = 9;
-			
-			// aapt resource value: 10
-			public static int RecyclerView_fastScrollHorizontalTrackDrawable = 10;
-			
-			// aapt resource value: 7
-			public static int RecyclerView_fastScrollVerticalThumbDrawable = 7;
-			
-			// aapt resource value: 8
-			public static int RecyclerView_fastScrollVerticalTrackDrawable = 8;
-			
-			// aapt resource value: 2
-			public static int RecyclerView_layoutManager = 2;
-			
-			// aapt resource value: 4
-			public static int RecyclerView_reverseLayout = 4;
-			
-			// aapt resource value: 3
-			public static int RecyclerView_spanCount = 3;
-			
-			// aapt resource value: 5
-			public static int RecyclerView_stackFromEnd = 5;
-			
-			public static int[] TreeView = new int[] {
-					2130771998,
-					2130771999,
-					2130772000,
-					2130772001,
-					2130772002,
-					2130772003,
-					2130772004};
+					2130771974};
 			
 			// aapt resource value: 5
 			public static int TreeView_head_margin = 5;
