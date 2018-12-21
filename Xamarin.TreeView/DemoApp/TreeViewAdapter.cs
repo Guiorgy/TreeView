@@ -9,7 +9,9 @@ namespace DemoApp
 {
     public class TreeViewNode : TreeViewNodeAbstract
     {
-        public bool? Collapsed { get; set; } = true;
+        public bool Collapsed { get; set; } = false;
+        public TreeViewNode() { }
+        public TreeViewNode(bool collapsed) { Collapsed = collapsed; }
     }
     public class TreeViewLeaf : TreeViewLeafAbstract { }
 
@@ -38,11 +40,9 @@ namespace DemoApp
             ITreeViewNode node = Nodes[position];
             var holder = viewHolder as NodeViewHolder;
 
-            if(node is TreeViewNode && (node as TreeViewNode).Collapsed == true)
+            if(node is TreeViewNode)
             {
-                holder.TreeContainer.Visibility = ViewStates.Gone;
-                holder.Collapsed = true;
-                (node as TreeViewNode).Collapsed = null;
+                holder.TreeContainer.Visibility = (node as TreeViewNode).Collapsed ? ViewStates.Gone : ViewStates.Visible;
             }
 
             if (holder.TextView != null)
@@ -55,6 +55,7 @@ namespace DemoApp
             var holder = viewHolder as LeafViewHolder;
 
             holder.ItemView.SetBackgroundColor(Color.Green);
+            if (node is TreeViewNode) (node as TreeViewNode).Collapsed = false;
 
             if (holder.TextView != null)
                 holder.TextView.Text = $"{holder.Level}, {position}, {node.Id}";
@@ -63,7 +64,6 @@ namespace DemoApp
         private class NodeViewHolder : TreeView.NodeViewHolder
         {
             //protected ExpandCollapseAnimation ExpandCollapseAnimations;
-            public bool Collapsed { get; set; }
             public TextView TextView { get; }
 
             public NodeViewHolder(TreeView tree, View itemView) : base(tree, itemView)
@@ -72,12 +72,13 @@ namespace DemoApp
 
                 this.Head.Click += (object sender, System.EventArgs e) =>
                 {
+                    var node = Node as TreeViewNode;
                     /*if (ExpandCollapseAnimations != null && !ExpandCollapseAnimations.HasEnded) return;
-                    if (Collapsed) ExpandCollapseAnimations = new ExpandCollapseAnimation(this.TreeContainer, ExpandCollapseAnimation.AnimationMode.Expand, doFade: true, duration: 60, dynamic: true);
+                    if (node.Collapsed) ExpandCollapseAnimations = new ExpandCollapseAnimation(this.TreeContainer, ExpandCollapseAnimation.AnimationMode.Expand, doFade: true, duration: 60, dynamic: true);
                     else ExpandCollapseAnimations = new ExpandCollapseAnimation(this.TreeContainer, ExpandCollapseAnimation.AnimationMode.Collapse, doFade: true, duration: 60, dynamic: true);*/
-                    if (Collapsed) ExpandView(this.TreeContainer, duration: 60, dynamic: true, doFade: true);
+                    if (node.Collapsed) ExpandView(this.TreeContainer, duration: 60, dynamic: true, doFade: true);
                     else CollapseView(this.TreeContainer, duration: 60, dynamic: true, doFade: true);
-                    Collapsed = !Collapsed;
+                    node.Collapsed = !node.Collapsed;
                 };
             }
         }

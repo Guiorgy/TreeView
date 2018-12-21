@@ -18,17 +18,17 @@ namespace DemoApp
             treeView.SetAdapter(adapter);
             TreeViewNode[] items =
             {
-                new TreeViewNode(),
-                new TreeViewNode(),
-                new TreeViewNode(),
-                new TreeViewNode(),
+                new TreeViewNode(true),
+                new TreeViewNode(true),
+                new TreeViewNode(true),
+                new TreeViewNode(true),
             };
-            items[1].AddChild(new TreeViewNode());
-            items[1].AddChild(new TreeViewNode());
-            items[1][1].AddChild(new TreeViewNode());
-            items[1].AddChild(new TreeViewNode());
-            TreeViewNode item = new TreeViewNode();
-            item.AddChild(new TreeViewNode());
+            items[1].AddChild(new TreeViewNode(true));
+            items[1].AddChild(new TreeViewNode(true));
+            items[1][1].AddChild(new TreeViewNode(true));
+            items[1].AddChild(new TreeViewNode(true));
+            TreeViewNode item = new TreeViewNode(true);
+            item.AddChild(new TreeViewNode(true));
             items[2].AddChild(item);
             adapter.AddNodes(items);
 
@@ -39,7 +39,7 @@ namespace DemoApp
             adapter.LongClick += (object sender, TreeView.ClickEventArgs e) =>
             {
                 System.Console.WriteLine($"LongClick. NodeId:{e.Node.Id}, Level:{e.Level}, Position:{e.Position}, NodeType{e.NodeType}");
-                e.Node.AddChild(new TreeViewNode());
+                e.Node.AddChild(new TreeViewNode(false));
                 adapter.NotifyDataSetChanged();
             };
         }
