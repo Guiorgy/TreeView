@@ -1,7 +1,7 @@
 # TreeView for Xamarin.Android
 
 ## Download
-[![NuGet](https://img.shields.io/badge/Android%20Arsenal-android--file--chooser-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6982)
+[![NuGet](https://img.shields.io/nuget/v/Xamarin.TreeView.svg?style=flat&max-age=86400)](https://www.nuget.org/packages/Xamarin.TreeView/)
 
 |  |  |
 | --------------- | ----------------------------------------------- |
@@ -10,7 +10,7 @@
 
 ### ScreenShots
 
-<img src="Captures/demo.gif" width="360"/>
+<img src="https://github.com/Guiorgy/TreeView/blob/master/hierarchy-icon.png?raw=true" width="360"/>
 
 ## Usage
 

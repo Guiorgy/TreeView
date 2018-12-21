@@ -41,9 +41,7 @@ namespace DemoApp
             var holder = viewHolder as NodeViewHolder;
 
             if(node is TreeViewNode)
-            {
                 holder.TreeContainer.Visibility = (node as TreeViewNode).Collapsed ? ViewStates.Gone : ViewStates.Visible;
-            }
 
             if (holder.TextView != null)
                 holder.TextView.Text = $"{holder.Level}, {position}, {node.Id}";
@@ -55,7 +53,8 @@ namespace DemoApp
             var holder = viewHolder as LeafViewHolder;
 
             holder.ItemView.SetBackgroundColor(Color.Green);
-            if (node is TreeViewNode) (node as TreeViewNode).Collapsed = false;
+            if (node is TreeViewNode)
+                (node as TreeViewNode).Collapsed = false;
 
             if (holder.TextView != null)
                 holder.TextView.Text = $"{holder.Level}, {position}, {node.Id}";
