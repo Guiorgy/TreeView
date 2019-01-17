@@ -5,8 +5,8 @@
 
 |  |  |
 | --------------- | ----------------------------------------------- |
-| Package Manager | Install-Package Xamarin.TreeView -Version 1.0.0 |
-| .NET CLI | dotnet add package Xamarin.TreeView --version 1.0.0 |
+| Package Manager | Install-Package Xamarin.TreeView -Version 1.0.1 |
+| .NET CLI | dotnet add package Xamarin.TreeView --version 1.0.1 |
 
 ### ScreenShots
 
