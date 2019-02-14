@@ -11,9 +11,13 @@ update_configs:
     - Guiorgy
     default_labels:
     - "dependabot"
+<<<<<<< HEAD
     ignored_updates:
       - match:
         dependency_name: "Xamarin.Android.Support.v7.RecyclerView"
+=======
+    version_requirement_updates: "off"
+>>>>>>> parent of 375587a... Update config.yml
 
   - package_manager: "dotnet:nuget"
     directory: "/Xamarin.TreeView/DemoApp"
@@ -25,3 +29,4 @@ update_configs:
     - Guiorgy
     default_labels:
     - "dependabot"
+    version_requirement_updates: "off"
