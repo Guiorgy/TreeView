@@ -1,7 +1,7 @@
 # TreeView for Xamarin.Android
 
 ## Download
-[![NuGet](https://img.shields.io/nuget/v/Xamarin.TreeView.svg?style=flat&max-age=86400)](https://www.nuget.org/packages/Xamarin.TreeView/)
+[![NuGet](https://img.shields.io/nuget/v/Xamarin.TreeView.svg?style=flat&max-age=86400)](https://www.nuget.org/packages/Xamarin.TreeView/) [![API](https://img.shields.io/badge/API-15%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=15)
 
 |  |  |
 | --------------- | ----------------------------------------------- |
