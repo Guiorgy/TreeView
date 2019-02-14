@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.TreeView", "Xamarin.TreeView\Xamarin.TreeView.csproj", "{9C9A6284-B382-42B8-8255-FF1FD1FE0FC6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoApp", "DemoApp\DemoApp.csproj", "{CDFD6D92-18CC-467B-9656-380B4C5BDB30}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9C9A6284-B382-42B8-8255-FF1FD1FE0FC6} = {9C9A6284-B382-42B8-8255-FF1FD1FE0FC6}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
