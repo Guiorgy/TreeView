@@ -1,0 +1,26 @@
+version: 1
+
+update_configs:
+  - package_manager: "dotnet:nuget"
+    directory: "/Xamarin.TreeView/Xamarin.TreeView"
+    update_schedule: "weekly"
+    target_branch: "devel"
+    default_reviewers:
+    - Guiorgy
+    default_assignees:
+    - Guiorgy
+    default_labels:
+    - "dependabot"
+    version_requirement_updates: "off"
+
+  - package_manager: "dotnet:nuget"
+    directory: "/Xamarin.TreeView/DemoApp"
+    update_schedule: "weekly"
+    target_branch: "devel"
+    default_reviewers:
+    - Guiorgy
+    default_assignees:
+    - Guiorgy
+    default_labels:
+    - "dependabot"
+    version_requirement_updates: "off"
