@@ -68,6 +68,9 @@
     <AndroidResource Include="Resources\values\attr.xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Timestamp">
+      <Version>1.0.2</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.v7.RecyclerView">
       <Version>21.0.3</Version>
     </PackageReference>
