@@ -11,6 +11,9 @@ update_configs:
     - Guiorgy
     default_labels:
     - "dependabot"
+    ignored_updates:
+      - match:
+        dependency_name: "Xamarin.Android.Support.v7.RecyclerView"
 
   - package_manager: "dotnet:nuget"
     directory: "/Xamarin.TreeView/DemoApp"
